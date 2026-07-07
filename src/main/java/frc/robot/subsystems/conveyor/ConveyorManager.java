@@ -7,11 +7,23 @@ package frc.robot.subsystems.conveyor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorManager extends SubsystemBase {
-  /** Creates a new ConveyorManager. */
-  public ConveyorManager() {}
+  private final ConveyorHardware conveyorHardware;
 
+  public ConveyorManager(ConveyorHardware conveyorHardware) {
+    this.conveyorHardware = conveyorHardware;
+  }
+
+  public void setRollerSpeed(double speed) {
+    conveyorHardware.RollerMotor1.set(speed);
+    conveyorHardware.RollerMotor2.set(speed);
+  }
+
+  public void stopRollers() {
+    conveyorHardware.RollerMotor1.set(0);
+    conveyorHardware.RollerMotor2.set(0);
+  }
+  
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
