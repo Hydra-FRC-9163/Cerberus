@@ -1,4 +1,4 @@
-package frc.robot.Dashboards.RobotStress;
+package frc.robot.commands.Dashboards.RobotStress;
 
 public class RobotStressData {
     public final double batteryVoltage;

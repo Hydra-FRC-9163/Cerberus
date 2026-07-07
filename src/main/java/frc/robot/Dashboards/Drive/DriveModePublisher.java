@@ -1,4 +1,4 @@
-package frc.robot.Dashboards.Drive;
+package frc.robot.commands.Dashboards.Drive;
 
 import edu.wpi.first.networktables.IntegerPublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;

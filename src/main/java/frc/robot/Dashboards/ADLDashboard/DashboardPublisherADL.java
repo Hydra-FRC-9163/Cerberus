@@ -1,4 +1,4 @@
-package frc.robot.Dashboards.ADLDashboard;
+package frc.robot.commands.Dashboards.ADLDashboard;
 
 public class DashboardPublisherADL {
     
