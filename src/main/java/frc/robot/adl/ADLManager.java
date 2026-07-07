@@ -3,18 +3,19 @@ package frc.robot.adl;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.utils.Constants;
 
 public class ADLManager {
-
+    
     private ADLState currentState = ADLState.IDLE;
 
     private final HumanIntentSource intentSource;
     private final RobotContextProvider contextProvider;
     // private final ADLExecutor executor;
 
-    private DecisionResult lastDecision = null;
+    @SuppressWarnings("unused")
     private double lastDecisionTime = 0.0;
+    private DecisionResult lastDecision = null;
+    
 
     private final StringPublisher statePub;
     private final StringPublisher decisionPub;
