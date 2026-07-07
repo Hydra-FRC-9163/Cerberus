@@ -26,6 +26,13 @@ public class ConveyorHardware extends SubsystemBase {
     
     RollerMotor1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     RollerMotor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
+  }
+
+  public void setRollerSpeed(double speed) {
+    RollerMotor1.set(speed);
+    RollerMotor2.set(speed);
   }
 
   @Override

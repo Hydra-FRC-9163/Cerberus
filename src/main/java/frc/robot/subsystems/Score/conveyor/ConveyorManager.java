@@ -13,14 +13,12 @@ public class ConveyorManager extends SubsystemBase {
     this.conveyorHardware = conveyorHardware;
   }
 
-  public void setRollerSpeed(double speed) {
-    conveyorHardware.RollerMotor1.set(speed);
-    conveyorHardware.RollerMotor2.set(speed);
+  public void setRollerSpeed() {
+    conveyorHardware.setRollerSpeed(0.5);
   }
 
   public void stopRollers() {
-    conveyorHardware.RollerMotor1.set(0);
-    conveyorHardware.RollerMotor2.set(0);
+    conveyorHardware.setRollerSpeed(0);
   }
   
   @Override

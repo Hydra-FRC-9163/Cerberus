@@ -24,7 +24,7 @@ public class LinearManager extends SubsystemBase {
   public void GoToPosition1(double position) {
 
     if (linearHardware.LinearMotor.getEncoder().getPosition() >= position) {
-      stopLinear1();
+      linearHardware.stopLinear1();
     } else if (linearHardware.LinearMotor.getEncoder().getPosition() < position 
           || linearHardware.LinearMotor.getEncoder().getPosition() > position) {
     
@@ -32,14 +32,14 @@ public class LinearManager extends SubsystemBase {
     .setSetpoint(position, ControlType.kPosition);
 
     } else {
-      linearHardware.LinearMotor.set(0);
+      linearHardware.stopLinear1();
     }
 
   }
 
   public void GoToPosition2(double position) {
   if (linearHardware.LinearMotor2.getEncoder().getPosition() >= position) {
-      stopLinear2();
+      linearHardware.stopLinear2();
     } else if (linearHardware.LinearMotor2.getEncoder().getPosition() < position 
           || linearHardware.LinearMotor2.getEncoder().getPosition() > position) {
     
@@ -47,29 +47,11 @@ public class LinearManager extends SubsystemBase {
     .setSetpoint(position, ControlType.kPosition);
 
     } else {
-      linearHardware.LinearMotor2.set(0);
+      linearHardware.stopLinear2();
     }
   }
 
 
-    public void setLinearSpeed(double speed) {
-    linearHardware.LinearMotor.set(speed);
-  }
-  public void setLinearSpeed2(double speed) {
-    linearHardware.LinearMotor.set(speed);
-  }
-  
-  public void stopLinear1() {
-    linearHardware.LinearMotor.set(0);
-  }
-
-  public void stopLinear2() {
-    linearHardware.LinearMotor.set(0);
-  }
-
-  public void StopALL() {
-    linearHardware.LinearMotor.set(0);
-    linearHardware.LinearMotor2.set(0);
-  }
+   
 
 }

@@ -56,6 +56,26 @@ public class LinearHardware extends SubsystemBase {
 
   }
 
+   public void setLinearSpeed(double speed) {
+    LinearMotor.set(speed);
+  }
+  public void setLinearSpeed2(double speed) {
+    LinearMotor2.set(speed);
+  }
+  
+  public void stopLinear1() {
+    LinearMotor.set(0);
+  }
+
+  public void stopLinear2() {
+    LinearMotor2.set(0);
+  }
+
+  public void StopALL() {
+    LinearMotor.set(0);
+    LinearMotor2.set(0);
+  }
+
   @Override
   public void periodic() {
 
