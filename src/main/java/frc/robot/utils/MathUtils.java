@@ -1,7 +1,5 @@
 package frc.robot.utils;
 
-import frc.robot.utils.Constants;
-
 public class MathUtils {
 
     private static final double ANALOG_DEADZONE = 0.04;

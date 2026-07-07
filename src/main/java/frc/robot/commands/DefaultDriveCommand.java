@@ -5,16 +5,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.Constants;
 import frc.robot.utils.MathUtils;
-import frc.robot.subsystem.Drivetrain;
-import frc.robot.subsystem.SensorE3;
-import frc.robot.subsystem.Arm;
+import frc.robot.subsystems.Drivetrain.*;
 
 public class DefaultDriveCommand extends Command {
 
     private final Drivetrain drivetrain;
-    private final SensorE3 infrav;
     private final Joystick controle;
-    private final Arm arm;
 
     private int POV;
     private boolean botaoA, botaoB, botaoX, R1, L1;
@@ -23,12 +19,10 @@ public class DefaultDriveCommand extends Command {
 
     private final MathUtils math = new MathUtils();
 
-    public DefaultDriveCommand(Drivetrain drive, SensorE3 infrav, Joystick controle, Arm arm) {
+    public DefaultDriveCommand(Drivetrain drive, Joystick controle) {
         this.drivetrain = drive;
-        this.infrav = infrav;
         this.controle = controle;
-        this.arm = arm;
-        addRequirements(drivetrain, infrav, arm);
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -41,13 +35,7 @@ public class DefaultDriveCommand extends Command {
     public void execute() {
         lerControles();
         speedControl();
-        moveArm();
         atualizarSmartDashboard();
-    
-        if (infrav.isObstacleDetected()) {
-        drivetrain.stop();
-        return;
-        }
     
         if (POV != -1) {
             double[] velocidades = math.calcularPOV(POV, speed);
@@ -80,7 +68,6 @@ public class DefaultDriveCommand extends Command {
     @Override
     public void end(boolean interrompido) {
         drivetrain.stop();
-        arm.stop();
     }
 
     @Override
@@ -110,16 +97,6 @@ public class DefaultDriveCommand extends Command {
         if (botaoA) speed = 0.25;
         else if (botaoB) speed = 0.5;
         else if (botaoX) speed = 1;
-    }
-
-    private void moveArm() {
-        if (R1) {
-            arm.moveArm(0.2);
-        } else if (L1) {
-            arm.moveArm(-0.2);
-        } else {
-            arm.stop();
-        }
     }
 
     private void atualizarSmartDashboard() {
