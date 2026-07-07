@@ -7,8 +7,18 @@ package frc.robot.subsystems.Score.claw;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawManager extends SubsystemBase {
-  /** Creates a new IntakeRollerManager. */
-  public ClawManager() {}
+  public ClawHardware clawHardware;
+  public ClawManager(ClawHardware clawHardware) {
+    this.clawHardware = clawHardware;
+  }
+
+  public void setClawMotorSpeed(double speed) {
+    clawHardware.clawMotor.set(speed);
+  }
+
+  public void stopClawMotor() {
+    clawHardware.clawMotor.set(0);
+  }
 
   @Override
   public void periodic() {
