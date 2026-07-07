@@ -13,11 +13,6 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.ResetMode;
 import com.revrobotics.PersistMode;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LinearHardware extends SubsystemBase {
    public SparkMax LinearMotor = new SparkMax(3, MotorType.kBrushless);
@@ -59,6 +54,26 @@ public class LinearHardware extends SubsystemBase {
 
    
 
+  }
+
+   public void setLinearSpeed(double speed) {
+    LinearMotor.set(speed);
+  }
+  public void setLinearSpeed2(double speed) {
+    LinearMotor2.set(speed);
+  }
+  
+  public void stopLinear1() {
+    LinearMotor.set(0);
+  }
+
+  public void stopLinear2() {
+    LinearMotor2.set(0);
+  }
+
+  public void StopALL() {
+    LinearMotor.set(0);
+    LinearMotor2.set(0);
   }
 
   @Override
