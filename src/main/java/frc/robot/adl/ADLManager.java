@@ -11,7 +11,7 @@ public class ADLManager {
 
     private final HumanIntentSource intentSource;
     private final RobotContextProvider contextProvider;
-    private final ADLExecutor executor;
+    // private final ADLExecutor executor;
 
     private DecisionResult lastDecision = null;
     private double lastDecisionTime = 0.0;
@@ -21,12 +21,12 @@ public class ADLManager {
 
     public ADLManager(
             HumanIntentSource intentSource,
-            RobotContextProvider contextProvider,
-            ADLExecutor executor
+            RobotContextProvider contextProvider
+            // ADLExecutor executor
     ) {
         this.intentSource    = intentSource;
         this.contextProvider = contextProvider;
-        this.executor        = executor;
+        // this.executor        = executor;
 
         var nt = NetworkTableInstance.getDefault();
         statePub    = nt.getStringTopic("/ADL/state").publish();
@@ -42,7 +42,11 @@ public class ADLManager {
 
         if (intent == null) return;
 
+<<<<<<< HEAD
         if (now - lastDecisionTime < frc.robot.utils.ADLManager.MIN_DECISION_INTERVAL) return;
+=======
+        // if (now - lastDecisionTime < Constants.ADLManager.MIN_DECISION_INTERVAL) return;
+>>>>>>> 19e4c8eb932c6da35802286ba6792361c5d4639e
 
         DecisionResult result = ADLDecision.decide(intent, currentState, context);
         lastDecision = result;
@@ -55,7 +59,7 @@ public class ADLManager {
             case EXECUTE:
             case MODIFY:
                 currentState = result.state;
-                executor.execute(currentState);
+                // executor.execute(currentState);
                 publishState(result.reason);
                 break;
             case HOLD:
