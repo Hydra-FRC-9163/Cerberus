@@ -148,5 +148,32 @@ public final class Constants {
         
 
         public static final int joystickid = 0;
-    
+
+    public static final class Encoder {
+        public static final int portaEncoderA = 0;
+        public static final int portaEncoderB = 1;
+    }
+
+    public static final class LimeLight {
+        public static final String limeLightFront = "limelight-front";
+        public static final String limeLightLeft = "limelight-left";
+  
+          public static final double kP_Distance = 0.04;
+          public static final double kP_Aim = 0.02;
+          public static final double targetArea = 4.0;
+          public static final double maxSpeed = 0.25;
+          public static final double minSpeed = 0.05;
+          public static final double deadbandDistance = 0.3;
+          public static final double deadbandAim = 10.0;
+          public static final double minTurnCommand = 0.02;
+          public static final double initialSpeed = 0.3;
+  
+          public static final double limeLightHeight = 0.60;
+          public static final double tagHeight = 1.22;
+          public static final double limeLightAngle = 25.0;
+  
+          public static final double kP_align = 0.02;
+          public static final double maxTurnPower = 0.3;
+          public static final double alignDeadband = 10;
+    }
 }
