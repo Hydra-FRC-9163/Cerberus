@@ -42,11 +42,7 @@ public class ADLManager {
 
         if (intent == null) return;
 
-<<<<<<< HEAD
-        if (now - lastDecisionTime < frc.robot.utils.ADLManager.MIN_DECISION_INTERVAL) return;
-=======
         // if (now - lastDecisionTime < Constants.ADLManager.MIN_DECISION_INTERVAL) return;
->>>>>>> 19e4c8eb932c6da35802286ba6792361c5d4639e
 
         DecisionResult result = ADLDecision.decide(intent, currentState, context);
         lastDecision = result;
