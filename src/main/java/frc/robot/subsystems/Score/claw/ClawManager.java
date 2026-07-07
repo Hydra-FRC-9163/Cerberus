@@ -12,16 +12,15 @@ public class ClawManager extends SubsystemBase {
     this.clawHardware = clawHardware;
   }
 
-  public void setClawMotorSpeed(double speed) {
-    clawHardware.clawMotor.set(speed);
+  public void setClawMotorSpeed() {
+    clawHardware.setClawMotorSpeed(0.5);
   }
 
   public void stopClawMotor() {
-    clawHardware.clawMotor.set(0);
+    clawHardware.stopClawMotor();
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

@@ -35,6 +35,14 @@ public class ClawHardware extends SubsystemBase {
     clawMotor.configure(clawMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
+  public void setClawMotorSpeed(double speed) {
+    clawMotor.set(speed);
+  }
+
+  public void stopClawMotor() {
+    clawMotor.set(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
