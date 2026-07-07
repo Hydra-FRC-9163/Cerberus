@@ -3,7 +3,7 @@ package frc.robot.adl;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
+import frc.robot.utils.Constants;
 
 public class ADLManager {
 
@@ -42,7 +42,7 @@ public class ADLManager {
 
         if (intent == null) return;
 
-        if (now - lastDecisionTime < Constants.ADLManager.MIN_DECISION_INTERVAL) return;
+        if (now - lastDecisionTime < frc.robot.utils.ADLManager.MIN_DECISION_INTERVAL) return;
 
         DecisionResult result = ADLDecision.decide(intent, currentState, context);
         lastDecision = result;

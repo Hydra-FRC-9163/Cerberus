@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.claw;
+package frc.robot.subsystems.Score.conveyor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClawHardware extends SubsystemBase {
-  /** Creates a new IntakeRoller_Hardware. */
-  public ClawHardware() {}
+public class ConveyorHardware extends SubsystemBase {
+  /** Creates a new ConveyorHardware. */
+  public ConveyorHardware() {}
 
   @Override
   public void periodic() {

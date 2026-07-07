@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.linear;
+package frc.robot.subsystems.Score.conveyor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LinearHardware extends SubsystemBase {
-  /** Creates a new LinearHardware. */
-  public LinearHardware() {}
+public class ConveyorManager extends SubsystemBase {
+  /** Creates a new ConveyorManager. */
+  public ConveyorManager() {}
 
   @Override
   public void periodic() {
