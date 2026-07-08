@@ -16,11 +16,10 @@ public class LinearManager extends SubsystemBase {
   public void periodic() {
   }
 
-
-  public void GoToPosition1(double position) {
+  public void LinearGoToPosition(double position) {
 
     if (linearHardware.LinearMotor.getEncoder().getPosition() >= position) {
-      linearHardware.stopLinear1();
+      linearHardware.stopLinear();
     } else if (linearHardware.LinearMotor.getEncoder().getPosition() < position 
           || linearHardware.LinearMotor.getEncoder().getPosition() > position) {
     
@@ -28,22 +27,42 @@ public class LinearManager extends SubsystemBase {
     .setSetpoint(position, ControlType.kPosition);
 
     } else {
-      linearHardware.stopLinear1();
+      linearHardware.stopLinear();
     }
 
   }
 
-  public void GoToPosition2(double position) {
-  if (linearHardware.LinearMotor2.getEncoder().getPosition() >= position) {
-      linearHardware.stopLinear2();
-    } else if (linearHardware.LinearMotor2.getEncoder().getPosition() < position 
-          || linearHardware.LinearMotor2.getEncoder().getPosition() > position) {
+  public void AngularGoToPosition(double position) {
+  if (linearHardware.AngularMotor.getEncoder().getPosition() >= position) {
+      linearHardware.stopAngular();
+    } else if (linearHardware.AngularMotor.getEncoder().getPosition() < position 
+          || linearHardware.AngularMotor.getEncoder().getPosition() > position) {
     
-      linearHardware.LinearMotor2.getClosedLoopController()
+      linearHardware.AngularMotor.getClosedLoopController()
     .setSetpoint(position, ControlType.kPosition);
 
     } else {
-      linearHardware.stopLinear2();
+      linearHardware.stopAngular();
     }
+  }
+
+  public void LinearUp() {
+    linearHardware.setLinearSpeed(0.5);
+  }
+
+  public void AngularUp() {
+    linearHardware.setAngularSpeed(0.5);
+  }
+
+  public void LinearDown() {
+    linearHardware.setLinearSpeed(-0.5);
+  }
+
+  public void AngularDown() {
+    linearHardware.setAngularSpeed(-0.5);
+  } 
+
+  public void StopAll() {
+    linearHardware.StopAll();
   }
 }

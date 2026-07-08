@@ -8,7 +8,7 @@ public class ClawManager extends SubsystemBase {
     this.clawHardware = clawHardware;
   }
 
-  public void setClawMotorSpeed() {
+  public void Intake() {
     clawHardware.setClawMotorSpeed(0.5);
   }
 

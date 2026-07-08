@@ -12,7 +12,7 @@ import com.revrobotics.PersistMode;
 
 public class LinearHardware extends SubsystemBase {
    public SparkMax LinearMotor = new SparkMax(3, MotorType.kBrushless);
-   public SparkMax LinearMotor2 = new SparkMax(4, MotorType.kBrushless);
+   public SparkMax AngularMotor = new SparkMax(4, MotorType.kBrushless);
 
 
    SparkMaxConfig config1 = new SparkMaxConfig();
@@ -46,28 +46,28 @@ public class LinearHardware extends SubsystemBase {
     config2.smartCurrentLimit(40);
 
     LinearMotor.configure(config1, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    LinearMotor2.configure(config2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    AngularMotor.configure(config2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
 
    public void setLinearSpeed(double speed) {
     LinearMotor.set(speed);
   }
-  public void setLinearSpeed2(double speed) {
-    LinearMotor2.set(speed);
+  public void setAngularSpeed(double speed) {
+    AngularMotor.set(speed);
   }
   
-  public void stopLinear1() {
+  public void stopLinear() {
     LinearMotor.set(0);
   }
 
-  public void stopLinear2() {
-    LinearMotor2.set(0);
+  public void stopAngular() {
+    AngularMotor.set(0);
   }
 
-  public void StopALL() {
+  public void StopAll() {
     LinearMotor.set(0);
-    LinearMotor2.set(0);
+    AngularMotor.set(0);
   }
 
   @Override
