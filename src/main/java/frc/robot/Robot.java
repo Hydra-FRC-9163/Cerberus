@@ -4,17 +4,45 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+     Logger.recordMetadata("ProjectName", "Binga"); 
+     Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
+   
+     if (RobotBase.isSimulation()) {
+       // Salva no ./logs (dentro da pasta do projeto) + envia via NT4
+       Logger.addDataReceiver(new WPILOGWriter("logs"));
+       Logger.addDataReceiver(new NT4Publisher());
+
+       Logger.addDataReceiver(new WPILOGWriter("logs"));
+       Logger.addDataReceiver(new NT4Publisher());
+   
+     } else {
+       // Robo real → salva no USB (/U) + envia via NT4
+       Logger.addDataReceiver(new WPILOGWriter("/U/logs"));
+       Logger.addDataReceiver(new NT4Publisher());
+     }
+     //Logger.start();
+     try {
+      Logger.start();
+  } catch (Exception e) {
+      e.printStackTrace();
+  } 
   }
 
   @Override
