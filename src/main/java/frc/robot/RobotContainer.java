@@ -90,7 +90,7 @@ public class RobotContainer {
     conveyorHardware    = new ConveyorHardware();
     linearHardware      = new LinearHardware();
 
-    clawManager         = new ClawManager();
+    clawManager         = new ClawManager(clawHardware);
     climbManager        = new ClimbManager();
     conveyorManager     = new ConveyorManager(conveyorHardware);
     linearManager       = new LinearManager(linearHardware);

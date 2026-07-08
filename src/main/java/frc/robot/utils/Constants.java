@@ -4,6 +4,7 @@ public final class Constants {
 
   public static final int PS5_ID = 0;
   public static final int LOGITECH_ID = 1;
+  public static final int joystickid = 0;
 
     public static class Drivetrain {
         public static final int frenteleft = 1;
@@ -34,23 +35,20 @@ public final class Constants {
 
     public static class ClimbConstants {
 
-    public static final double CLIMBER_kP = 0.02;
-    public static final double CLIMBER_kI = 0.0;
-    public static final double CLIMBER_kD = 0.0;
+        public static final double CLIMBER_kP = 0.02;
+        public static final double CLIMBER_kI = 0.0;
+        public static final double CLIMBER_kD = 0.0;
 
-    public static final double CLIMBER_MAX_OUTPUT = 1;
-    public static final double CLIMBER_MIN_OUTPUT = -1;
+        public static final double CLIMBER_MAX_OUTPUT = 1;
+        public static final double CLIMBER_MIN_OUTPUT = -1;
     
-    public static final int CLIMBER_LEFT_ID = 14;
-    public static final int CLIMBER_RIGHT_ID = 15;
-    public static final double CLIMBER_TOLERANCE = 0.7;
+        public static final int CLIMBER_LEFT_ID = 14;
+        public static final int CLIMBER_RIGHT_ID = 15;
+        public static final double CLIMBER_TOLERANCE = 0.7;
    
-    public static final String PREF_MIN_KEY = "Climber min position";
-    public static final String PREF_MAX_KEY = "Climber max position";
-  }
-        
-
-        public static final int joystickid = 0;
+        public static final String PREF_MIN_KEY = "Climber min position";
+        public static final String PREF_MAX_KEY = "Climber max position";
+    }
 
     public static final class Encoder {
         public static final int portaEncoderA = 0;
