@@ -3,6 +3,7 @@ package frc.robot.adl;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.utils.Constants;
 
 public class ADLManager {
     
@@ -10,7 +11,7 @@ public class ADLManager {
 
     private final HumanIntentSource intentSource;
     private final RobotContextProvider contextProvider;
-    // private final ADLExecutor executor;
+    private final ADLExecutor executor;
 
     @SuppressWarnings("unused")
     private double lastDecisionTime = 0.0;
@@ -22,12 +23,12 @@ public class ADLManager {
 
     public ADLManager(
             HumanIntentSource intentSource,
-            RobotContextProvider contextProvider
-            // ADLExecutor executor
+            RobotContextProvider contextProvider,
+            ADLExecutor executor
     ) {
         this.intentSource    = intentSource;
         this.contextProvider = contextProvider;
-        // this.executor        = executor;
+        this.executor        = executor;
 
         var nt = NetworkTableInstance.getDefault();
         statePub    = nt.getStringTopic("/ADL/state").publish();
@@ -43,7 +44,7 @@ public class ADLManager {
 
         if (intent == null) return;
 
-        // if (now - lastDecisionTime < Constants.ADLManager.MIN_DECISION_INTERVAL) return;
+        if (now - lastDecisionTime < Constants.ADLManager.MIN_DECISION_INTERVAL) return;
 
         DecisionResult result = ADLDecision.decide(intent, currentState, context);
         lastDecision = result;
@@ -56,7 +57,7 @@ public class ADLManager {
             case EXECUTE:
             case MODIFY:
                 currentState = result.state;
-                // executor.execute(currentState);
+                executor.execute(currentState);
                 publishState(result.reason);
                 break;
             case HOLD:

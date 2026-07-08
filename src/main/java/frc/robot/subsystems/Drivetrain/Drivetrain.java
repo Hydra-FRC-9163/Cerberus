@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 
@@ -19,6 +20,8 @@ public class Drivetrain extends SubsystemBase {
     public final WPI_VictorSPX rightBack = new WPI_VictorSPX(Constants.Drivetrain.trasright);
 
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
+    private final PowerDistribution pdh = new PowerDistribution();
 
     public Drivetrain() {}
 
@@ -61,5 +64,9 @@ public class Drivetrain extends SubsystemBase {
 
     public void reset(){
         gyro.reset();
+    }
+
+    public double getTotalRobotCurrent() {
+    return pdh.getTotalCurrent();
     }
 }
