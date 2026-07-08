@@ -17,33 +17,11 @@ public class LinearManager extends SubsystemBase {
   }
 
   public void LinearGoToPosition(double position) {
-
-    if (linearHardware.LinearMotor.getEncoder().getPosition() >= position) {
-      linearHardware.stopLinear();
-    } else if (linearHardware.LinearMotor.getEncoder().getPosition() < position 
-          || linearHardware.LinearMotor.getEncoder().getPosition() > position) {
-    
-      linearHardware.LinearMotor.getClosedLoopController()
-    .setSetpoint(position, ControlType.kPosition);
-
-    } else {
-      linearHardware.stopLinear();
-    }
-
+    linearHardware.LinearMotor.getClosedLoopController().setSetpoint(position, ControlType.kPosition);
   }
 
   public void AngularGoToPosition(double position) {
-  if (linearHardware.AngularMotor.getEncoder().getPosition() >= position) {
-      linearHardware.stopAngular();
-    } else if (linearHardware.AngularMotor.getEncoder().getPosition() < position 
-          || linearHardware.AngularMotor.getEncoder().getPosition() > position) {
-    
-      linearHardware.AngularMotor.getClosedLoopController()
-    .setSetpoint(position, ControlType.kPosition);
-
-    } else {
-      linearHardware.stopAngular();
-    }
+    linearHardware.AngularMotor.getClosedLoopController().setSetpoint(position, ControlType.kPosition);
   }
 
   public void LinearUp() {

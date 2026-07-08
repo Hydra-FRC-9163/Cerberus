@@ -12,6 +12,10 @@ public class ClawManager extends SubsystemBase {
     clawHardware.setClawMotorSpeed(0.5);
   }
 
+  public void Outtake() {
+    clawHardware.setClawMotorSpeed(-0.5);
+  }
+
   public void stopClawMotor() {
     clawHardware.stopClawMotor();
   }

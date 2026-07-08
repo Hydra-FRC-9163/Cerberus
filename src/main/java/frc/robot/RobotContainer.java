@@ -87,7 +87,16 @@ public class RobotContainer {
     
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    controller.L2().whileTrue(new InstantCommand(() -> linearManager.AngularUp()));
+    controller.R2().whileTrue(new InstantCommand(() -> linearManager.AngularDown()));
+
+    controller.L1().whileTrue(new InstantCommand(() -> linearManager.LinearUp()));
+    controller.R1().whileTrue(new InstantCommand(() -> linearManager.LinearDown()));
+
+    controller.circle().whileTrue(new InstantCommand(() -> clawManager.Intake()));
+    controller.cross().whileTrue(new InstantCommand(() -> clawManager.Outtake()));
+  }
 
   public void periodic() {}
 

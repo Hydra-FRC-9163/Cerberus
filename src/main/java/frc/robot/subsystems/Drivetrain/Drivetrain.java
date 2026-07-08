@@ -4,51 +4,43 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
-    public final WPI_VictorSPX leftFront = new WPI_VictorSPX(Constants.Drivetrain.frenteleft);
-    public final WPI_VictorSPX leftBack = new WPI_VictorSPX(Constants.Drivetrain.trasleft);
-    public final WPI_VictorSPX rightFront = new WPI_VictorSPX(Constants.Drivetrain.frenteright);
-    public final WPI_VictorSPX rightBack = new WPI_VictorSPX(Constants.Drivetrain.trasright);
+    public final VictorSPX leftFront;
+    public final VictorSPX leftBack;
+    public final VictorSPX rightFront;
+    public final VictorSPX rightBack;
 
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-    protected Encoder leftEncoder = new Encoder(Constants.Encoder.leftEncoderA, Constants.Encoder.leftEncoderB);
+    public Drivetrain() {
+        leftFront  = drivetrain(Constants.Drivetrain.frenteleft, Constants.Drivetrain.leftinvertido);
+        leftBack   = drivetrain(Constants.Drivetrain.trasleft, Constants.Drivetrain.leftinvertido);
+        rightFront = drivetrain(Constants.Drivetrain.frenteright, Constants.Drivetrain.rightinvertido);
+        rightBack  = drivetrain(Constants.Drivetrain.trasright, Constants.Drivetrain.rightinvertido);
 
-    protected Encoder rightEncoder = new Encoder(Constants.Encoder.rightEncoderA, Constants.Encoder.rightEncoderB);
-
-    public Drivetrain() {}
+        leftBack.follow(leftFront);
+        rightBack.follow(rightFront);
+        leftBack.setInverted(InvertType.FollowMaster);
+        rightBack.setInverted(InvertType.FollowMaster);
+    }
 
     private VictorSPX drivetrain(int id, boolean inverted) {
         VictorSPX motor = new VictorSPX(id);
-      leftBack.follow(rightFront);
-      rightBack.follow(rightFront);
-
-      rightFront.setInverted(true);
-      leftFront.setInverted(false);
-      leftBack.setInverted(InvertType.FollowMaster);
-      rightBack.setInverted(InvertType.FollowMaster);
-
-      leftFront.setNeutralMode(NeutralMode.Brake);
-      leftBack.setNeutralMode(NeutralMode.Brake);
-      rightFront.setNeutralMode(NeutralMode.Brake);
-      rightBack.setNeutralMode(NeutralMode.Brake);
-
+        motor.configFactoryDefault();
+        motor.setInverted(inverted);
+        motor.configNeutralDeadband(Constants.Drivetrain.deadzone);
+        motor.setNeutralMode(NeutralMode.Brake);
         return motor;
     }
 
     public void drive(double leftSpeed, double rightSpeed) {
         leftFront.set(ControlMode.PercentOutput, leftSpeed);
         rightFront.set(ControlMode.PercentOutput, rightSpeed);
-        leftBack.set(ControlMode.PercentOutput, leftSpeed);
-        rightBack.set(ControlMode.PercentOutput, rightSpeed);
     }
 
     public void stop() {
@@ -61,12 +53,5 @@ public class Drivetrain extends SubsystemBase {
 
     public double getRightMotorOutput() {
         return rightFront.getMotorOutputPercent();
-    }
-
-    public void reset(){
-        
-        leftEncoder.reset();
-        rightEncoder.reset();
-        gyro.reset();
     }
 }

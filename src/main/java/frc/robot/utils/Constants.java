@@ -31,6 +31,8 @@ public final class Constants {
         public static final int botaoX = 3;  // 50% (Circulo ou X)
 
         public static final double deadzone = 0.04;
+        
+        public static final double wheelDiameterMeters = 0.06; 
     }
 
     public static class ClimbConstants {
@@ -51,10 +53,13 @@ public final class Constants {
     }
 
     public static final class Encoder {
-        public static final int leftEncoderA = 0;
-        public static final int leftEncoderB = 1;
-        public static final int rightEncoderA = 2;
-        public static final int rightEncoderB = 3;
+        public static final int portaEncoderA = 0;
+        public static final int portaEncoderB = 1;
+
+        // CRIADO PARA O SIMULADOR
+        // ADAPTAR PARA IGUALAR COM PORTA REAL
+        public static final int portaEncoderLeftA = 2;
+        public static final int portaEncoderLeftB = 3;
     }
 
     public static final class LimeLight {
