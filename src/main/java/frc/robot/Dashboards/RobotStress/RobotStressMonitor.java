@@ -36,11 +36,15 @@ public class RobotStressMonitor {
     }
 
     public RobotStressData generateData(Drivetrain drivetrain) {
+        return generateData(drivetrain, 0.0);
+    }
+
+    public RobotStressData generateData(Drivetrain drivetrain, double systemCurrent) {
 
         double voltage = getBatteryVoltage();
 
-        double drivetrainCurrent = drivetrain.getTotalRobotCurrent();
-        double totalCurrent = drivetrain.getTotalRobotCurrent();
+        double drivetrainCurrent = drivetrain.getEstimatedDrivetrainCurrent();
+        double totalCurrent = Math.max(drivetrain.getTotalRobotCurrent(), drivetrainCurrent + systemCurrent);
 
         double score = calculateStressScore(drivetrainCurrent, totalCurrent);
         String level = getStressLevel(score);

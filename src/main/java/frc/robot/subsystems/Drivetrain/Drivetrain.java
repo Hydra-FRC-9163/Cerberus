@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 
@@ -60,5 +61,20 @@ public class Drivetrain extends SubsystemBase {
 
     public double getTotalRobotCurrent() {
         return pdh.getTotalCurrent();
+    }
+
+    public double getEstimatedDrivetrainCurrent() {
+        if (!RobotBase.isSimulation()) {
+            return getTotalRobotCurrent();
+        }
+
+        double leftLoad = Math.abs(getLeftMotorOutput());
+        double rightLoad = Math.abs(getRightMotorOutput());
+        return (leftLoad + rightLoad) * 40.0;
+    }
+
+    public double getEstimatedChassisSpeedMps() {
+        double averageOutput = (Math.abs(getLeftMotorOutput()) + Math.abs(getRightMotorOutput())) / 2.0;
+        return averageOutput * 3.6;
     }
 }

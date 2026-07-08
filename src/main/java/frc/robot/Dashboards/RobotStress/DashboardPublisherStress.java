@@ -7,6 +7,10 @@ public class DashboardPublisherStress {
     private final NetworkTable stressTable = NetworkTableInstance.getDefault().getTable("RobotStress");
     
 public void publish(RobotStressData data, double chassisSpeed) {
+        publish(data, chassisSpeed, 1.0);
+    }
+
+public void publish(RobotStressData data, double chassisSpeed, double speedScale) {
 
         stressTable.getEntry("batteryVoltage").setDouble(data.batteryVoltage);
         stressTable.getEntry("totalCurrent").setDouble(data.totalCurrent);
@@ -16,6 +20,7 @@ public void publish(RobotStressData data, double chassisSpeed) {
         stressTable.getEntry("stressLevel").setString(data.stressLevel);
 
         stressTable.getEntry("chassisSpeed").setDouble(chassisSpeed);
+        stressTable.getEntry("speedScale").setDouble(speedScale);
 
     }
 }
