@@ -69,11 +69,11 @@ public class RobotContainer {
   private final DashboardPublisherStress stressPublisher;
   private final DriveModePublisher modePublisher;
 
-  private final SendableChooser<String> autoChooser;
+  // private final SendableChooser<String> autoChooser;
 
-  private final RobotContextProvider adlContextProvider;
-  private final ADLManager legacyAdlManager;
-  private final ModularADLManager modularAdlManager;
+  // private final RobotContextProvider adlContextProvider;
+  // private final ADLManager legacyAdlManager;
+  // private final ModularADLManager modularAdlManager;
 
   private final SequentialCommandGroup autonomousCommand;
 
@@ -105,7 +105,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(defaultDriveCommand);
     configureBindings();
 
-    adlContextProvider = new RobotContextProvider();
+    // adlContextProvider = new RobotContextProvider();
     // legacyAdlManager = new ADLManager(
     //     new HumanIntentSource(),
     //     adlContextProvider,

@@ -72,10 +72,6 @@ public class Simulation extends SubsystemBase {
                 DifferentialDrivetrainSim.KitbotWheelSize.kSixInch,
                 null
             );
-          
-
-             // Inicializa a simulação
-              
         }
     
         reqDrive();   
