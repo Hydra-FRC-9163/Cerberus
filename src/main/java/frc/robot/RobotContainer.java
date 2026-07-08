@@ -160,4 +160,12 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
       return autonomousCommand;
   }
+
+  public Drivetrain getDrivetrain() {
+    return drivetrain;
+  }
+
+  public Simulation getSimulation() {
+    return simulation;
+}
 }

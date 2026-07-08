@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+  private final Drivetrain drivetrain;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+    drivetrain = m_robotContainer.getDrivetrain();
      Logger.recordMetadata("ProjectName", "Binga"); 
      Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
    
@@ -46,8 +49,17 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
+  public void simulationPeriodic(){
+     m_robotContainer.getSimulation().simulationPeriodic();
+  }
+
+  @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+
+      CommandScheduler.getInstance().run();
+
+    System.out.println(
+        CommandScheduler.getInstance().requiring(drivetrain));
   }
 
   @Override

@@ -23,31 +23,35 @@ public class Drivetrain extends SubsystemBase {
 
     private final PowerDistribution pdh = new PowerDistribution();
 
-    public Drivetrain() {}
+    public Drivetrain() {
+        leftBack.follow(leftFront);
+    rightBack.follow(rightFront);
 
-    private VictorSPX drivetrain(int id, boolean inverted) {
-        VictorSPX motor = new VictorSPX(id);
-      leftBack.follow(rightFront);
-      rightBack.follow(rightFront);
+    leftFront.setInverted(false);
+    rightFront.setInverted(true);
 
-      rightFront.setInverted(true);
-      leftFront.setInverted(false);
-      leftBack.setInverted(InvertType.FollowMaster);
-      rightBack.setInverted(InvertType.FollowMaster);
+    leftBack.setInverted(InvertType.FollowMaster);
+    rightBack.setInverted(InvertType.FollowMaster);
 
-      leftFront.setNeutralMode(NeutralMode.Brake);
-      leftBack.setNeutralMode(NeutralMode.Brake);
-      rightFront.setNeutralMode(NeutralMode.Brake);
-      rightBack.setNeutralMode(NeutralMode.Brake);
-
-        return motor;
+    leftFront.setNeutralMode(NeutralMode.Brake);
+    leftBack.setNeutralMode(NeutralMode.Brake);
+    rightFront.setNeutralMode(NeutralMode.Brake);
+    rightBack.setNeutralMode(NeutralMode.Brake);
     }
+
+
 
     public void drive(double leftSpeed, double rightSpeed) {
         leftFront.set(ControlMode.PercentOutput, leftSpeed);
         rightFront.set(ControlMode.PercentOutput, rightSpeed);
-        leftBack.set(ControlMode.PercentOutput, leftSpeed);
-        rightBack.set(ControlMode.PercentOutput, rightSpeed);
+
+           System.out.println("Recebi: " + leftSpeed + " " + rightSpeed);
+
+    leftFront.set(ControlMode.PercentOutput, leftSpeed);
+    rightFront.set(ControlMode.PercentOutput, rightSpeed);
+
+    System.out.println("Motor L = " + leftFront.getMotorOutputPercent());
+    System.out.println("Motor R = " + rightFront.getMotorOutputPercent());
     }
 
     public void stop() {

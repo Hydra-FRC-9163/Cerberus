@@ -79,20 +79,30 @@ public class Simulation extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
       if (driveSim != null) {
-        driveSim.setInputs(drivetrain.rightFront.get() * 12.0, drivetrain.leftFront.get() * 12.0);
-    
-        driveSim.update(0.02);
-    
-        leftEncoderSim.setDistance(driveSim.getLeftPositionMeters());
-        rightEncoderSim.setDistance(driveSim.getRightPositionMeters());
-        leftEncoderSim.setRate(driveSim.getLeftVelocityMetersPerSecond());
-        rightEncoderSim.setRate(driveSim.getRightVelocityMetersPerSecond());
-    
-        gyroSim.setAngle(driveSim.getHeading().getDegrees());
+     driveSim.setInputs(
+    drivetrain.leftFront.get() * 12.0,
+    drivetrain.rightFront.get() * 12.0
+);
 
-        Logger.recordOutput("MyPose", poseA);
-        Logger.recordOutput("MyPoseArray", poseA, poseB);
-        Logger.recordOutput("MyPoseArray", new Pose3d[] {poseA, poseB});
+    driveSim.update(0.02);
+
+    leftEncoderSim.setDistance(driveSim.getLeftPositionMeters());
+    rightEncoderSim.setDistance(driveSim.getRightPositionMeters());
+
+    leftEncoderSim.setRate(driveSim.getLeftVelocityMetersPerSecond());
+    rightEncoderSim.setRate(driveSim.getRightVelocityMetersPerSecond());
+
+    gyroSim.setAngle(-driveSim.getHeading().getDegrees());
+
+        Logger.recordOutput("Sim/LeftDistance", throughBoreSubsystem.leftEncoder.getDistance());
+        Logger.recordOutput("Sim/RightDistance", throughBoreSubsystem.rightEncoder.getDistance());
+
+        Logger.recordOutput("Sim/LeftRate", throughBoreSubsystem.leftEncoder.getRate());
+        Logger.recordOutput("Sim/RightRate", throughBoreSubsystem.rightEncoder.getRate());
+
+        Logger.recordOutput("Sim/Gyro", drivetrain.gyro.getAngle()); 
+        Logger.recordOutput("Sim/LeftOutput", drivetrain.leftFront.get());
+        Logger.recordOutput("Sim/RightOutput", drivetrain.rightFront.get());
         
       }
     }
