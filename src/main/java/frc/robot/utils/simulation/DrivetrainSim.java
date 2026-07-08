@@ -103,7 +103,10 @@ public class DrivetrainSim extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(
+    }
+
+    public void Update(){
+          odometry.update(
             getHeading(),
             throughBoreSubsystem.leftEncoder.getDistance(),
             throughBoreSubsystem.rightEncoder.getDistance()
@@ -119,7 +122,6 @@ public class DrivetrainSim extends SubsystemBase {
             Logger.recordOutput("Robot/Pose3d", getPose3d());
         }
     }
-
     public Pose3d getPose3d() {
         return new Pose3d(
             new Translation3d(getPose().getX(), getPose().getY(), 0.0),
