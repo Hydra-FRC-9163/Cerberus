@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 
@@ -14,6 +15,8 @@ public class Drivetrain extends SubsystemBase {
     public final VictorSPX leftBack;
     public final VictorSPX rightFront;
     public final VictorSPX rightBack;
+
+    private final PowerDistribution pdh = new PowerDistribution();
 
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -53,5 +56,9 @@ public class Drivetrain extends SubsystemBase {
 
     public double getRightMotorOutput() {
         return rightFront.getMotorOutputPercent();
+    }
+
+    public double getTotalRobotCurrent() {
+        return pdh.getTotalCurrent();
     }
 }

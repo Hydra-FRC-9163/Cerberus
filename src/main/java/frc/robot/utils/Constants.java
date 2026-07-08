@@ -84,4 +84,10 @@ public final class Constants {
           public static final double maxTurnPower = 0.3;
           public static final double alignDeadband = 10;
     }
+
+    public static class ADLManager {
+        public static final double MIN_DECISION_INTERVAL = 0.1; 
+        public static final boolean USE_MODULAR_ADL = true;
+        public static final boolean RUN_LEGACY_ADL_IN_PARALLEL = false;
+  }
 }
