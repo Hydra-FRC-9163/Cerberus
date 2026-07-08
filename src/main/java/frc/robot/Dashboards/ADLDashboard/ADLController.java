@@ -1,4 +1,4 @@
-package frc.robot.commands.Dashboards.ADLDashboard;
+package frc.robot.Dashboards.ADLDashboard;
 
 public class ADLController {
     
