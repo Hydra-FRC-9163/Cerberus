@@ -24,6 +24,7 @@ import frc.robot.adl.ADLManager;
 import frc.robot.adl.HumanIntentSource;
 import frc.robot.adl.RobotContextProvider;
 import frc.robot.adl.core.ADLDecisionEngine;
+import frc.robot.adl.ADLExecutor;
 import frc.robot.adl.core.ActionExecutionService;
 import frc.robot.adl.core.ActionRegistry;
 import frc.robot.adl.core.LegacyRobotContextFactsAdapter;
@@ -31,6 +32,7 @@ import frc.robot.adl.core.ModularADLManager;
 import frc.robot.adl.core.NetworkTablesActionIntentSource;
 import frc.robot.adl.core.SeasonRegistrationContext;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.seasons.season2023.Season2023Module;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Score.claw.ClawHardware;
 import frc.robot.subsystems.Score.linear.LinearHardware;
@@ -59,6 +61,10 @@ public class RobotContainer {
   private final DashboardPublisherStress stressPublisher;
   private final DriveModePublisher modePublisher;
 
+  private final RobotContextProvider adlContextProvider;
+  private final ADLManager legacyAdlManager;
+  private final ModularADLManager modularAdlManager;
+
   private final SequentialCommandGroup autonomousCommand;
 
   public RobotContainer() {
@@ -84,12 +90,66 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(defaultDriveCommand);
     configureBindings();
-    
+
+    adlContextProvider = new RobotContextProvider();
+    legacyAdlManager = new ADLManager(
+        new HumanIntentSource(),
+        adlContextProvider,
+        new ADLExecutor(
+            clawManager,
+            linearManager
+        )
+    );
+
+    modularAdlManager = buildModularAdlManager();
+  }
+
+  private ModularADLManager buildModularAdlManager() {
+    ActionRegistry actionRegistry = new ActionRegistry();
+    SeasonRegistrationContext seasonContext = new SeasonRegistrationContext(actionRegistry);
+    new Season2023Module(
+            clawManager,
+            linearManager
+    ).register(seasonContext);
+
+    NetworkTablesActionIntentSource intentSource = new NetworkTablesActionIntentSource(
+        java.util.Map.of(
+            "ACQUIRE_PIECE", new NetworkTablesActionIntentSource.LegacyIntentMapping(
+                Season2023Module.ACQUIRE_PIECE, "bump", 60, false),
+            "ABORT", new NetworkTablesActionIntentSource.LegacyIntentMapping(
+                Season2023Module.ABORT, "unknown", 1000, true)
+        )
+    );
+
+    return new ModularADLManager(
+        intentSource,
+        () -> LegacyRobotContextFactsAdapter.from(adlContextProvider.build()),
+        new ADLDecisionEngine(actionRegistry, seasonContext),
+        new ActionExecutionService(actionRegistry),
+        Constants.ADLManager.MIN_DECISION_INTERVAL
+    );
   }
 
   private void configureBindings() {}
 
-  public void periodic() {}
+  public void periodic() {
+
+    if (Constants.ADLManager.USE_MODULAR_ADL) {
+      modularAdlManager.periodic();
+      if (Constants.ADLManager.RUN_LEGACY_ADL_IN_PARALLEL) {
+        legacyAdlManager.periodic();
+      }
+    } else {
+      legacyAdlManager.periodic();
+    }
+
+    var stressData   = stressMonitor.generateData(drivetrain);
+    stressController.update(stressData);
+
+    double driveSpeed = 1;
+
+    stressPublisher.publish(stressData, driveSpeed);
+  }
 
     public Command getAutonomousCommand() {
       return autonomousCommand;

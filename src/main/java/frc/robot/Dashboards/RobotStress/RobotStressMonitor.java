@@ -1,7 +1,7 @@
 package frc.robot.Dashboards.RobotStress;
 
 import edu.wpi.first.wpilibj.RobotController;
-// import frc.robot.subsystems.Swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class RobotStressMonitor {
 
@@ -35,22 +35,22 @@ public class RobotStressMonitor {
         return "CRITICAL";
     }
 
-    // public RobotStressData generateData(SwerveSubsystem drivebase) {
+    public RobotStressData generateData(Drivetrain drivetrain) {
 
-    //     double voltage = getBatteryVoltage();
+        double voltage = getBatteryVoltage();
 
-    //     double drivetrainCurrent = drivebase.getTotalRobotCurrent();
-    //     double totalCurrent = drivebase.getTotalRobotCurrent();
+        double drivetrainCurrent = drivetrain.getTotalRobotCurrent();
+        double totalCurrent = drivetrain.getTotalRobotCurrent();
 
-    //     double score = calculateStressScore(drivetrainCurrent, totalCurrent);
-    //     String level = getStressLevel(score);
+        double score = calculateStressScore(drivetrainCurrent, totalCurrent);
+        String level = getStressLevel(score);
 
-    //     return new RobotStressData(
-    //         voltage,
-    //         totalCurrent,
-    //         drivetrainCurrent,
-    //         score,
-    //         level
-    //     );
-    // }
+        return new RobotStressData(
+            voltage,
+            totalCurrent,
+            drivetrainCurrent,
+            score,
+            level
+        );
+    }
 }
