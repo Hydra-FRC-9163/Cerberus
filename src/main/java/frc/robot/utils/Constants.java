@@ -31,6 +31,8 @@ public final class Constants {
         public static final int botaoX = 3;  // 50% (Circulo ou X)
 
         public static final double deadzone = 0.04;
+
+        public static final double wheelDiameterMeters = 0.06; 
     }
 
     public static class ClimbConstants {
@@ -51,10 +53,12 @@ public final class Constants {
     }
 
     public static final class Encoder {
+
         public static final int leftEncoderA = 1;
         public static final int leftEncoderB = 2;
         public static final int rightEncoderA = 3;
         public static final int rightEncoderB = 4;
+
     }
 
     public static final class LimeLight {
@@ -84,5 +88,5 @@ public final class Constants {
         public static final double MIN_DECISION_INTERVAL = 0.1; 
         public static final boolean USE_MODULAR_ADL = true;
         public static final boolean RUN_LEGACY_ADL_IN_PARALLEL = false;
-   }
+  }
 }
