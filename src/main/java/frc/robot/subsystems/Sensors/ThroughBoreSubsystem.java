@@ -5,12 +5,17 @@ import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.utils.Constants;
 
 public class ThroughBoreSubsystem extends SubsystemBase {
-    private final Encoder rightEncoder;
+    public final Encoder leftEncoder;
+    public final Encoder rightEncoder;
 
     public ThroughBoreSubsystem() {
-        rightEncoder = new Encoder(Constants.Encoder.portaEncoderA, Constants.Encoder.portaEncoderB);
+        leftEncoder = new Encoder(Constants.Encoder.leftEncoderA, Constants.Encoder.leftEncoderB);
 
-        double wheelDiameterMeters = 0.1524; // 6" em metros
+        rightEncoder = new Encoder(Constants.Encoder.rightEncoderA, Constants.Encoder.rightEncoderB);
+
+
+
+        double wheelDiameterMeters = 0.06; // 6" em metros
         double countsPerRev = 2048.0;        // quadrature counts ou 2048
         double gearRatio = 1.0;              // encoder direto na roda
         double wheelCircumference = Math.PI * wheelDiameterMeters;
@@ -18,11 +23,25 @@ public class ThroughBoreSubsystem extends SubsystemBase {
         double distancePerPulse = wheelCircumference / (countsPerRev * gearRatio);
 
         rightEncoder.setDistancePerPulse(distancePerPulse);
-        rightEncoder.setReverseDirection(true); // inverter se precisar
+        leftEncoder.setDistancePerPulse(distancePerPulse);
+        rightEncoder.setReverseDirection(true);
+        leftEncoder.setReverseDirection(false);
     }
 
-    public double getDistanceMeters() {
+    public double getRightPerPulse() {
+        return rightEncoder.getDistancePerPulse();
+    }
+
+    public double getLeftPerPulse() {
+        return leftEncoder.getDistancePerPulse();
+    }
+
+    public double getRightMeters() {
         return rightEncoder.getDistance();
+    }
+
+    public double getLeftMeters() {
+        return leftEncoder.getDistance();
     }
 
     public double getSpeedMetersPerSecond() {
