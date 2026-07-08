@@ -10,8 +10,8 @@ public class ThroughBoreSubsystem extends SubsystemBase {
     public final Encoder rightEncoder;
 
     public ThroughBoreSubsystem() {
-        leftEncoder  = new Encoder(Constants.Encoder.portaEncoderLeftA, Constants.Encoder.portaEncoderLeftB);
-        rightEncoder = new Encoder(Constants.Encoder.portaEncoderA, Constants.Encoder.portaEncoderB);
+        leftEncoder  = new Encoder(Constants.Encoder.leftEncoderA, Constants.Encoder.leftEncoderB);
+        rightEncoder = new Encoder(Constants.Encoder.rightEncoderA, Constants.Encoder.rightEncoderB);
 
         double countsPerRev = 2048.0; // quadrature counts
         double gearRatio = 1.0;       // encoder direto na roda

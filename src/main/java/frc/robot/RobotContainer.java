@@ -44,6 +44,7 @@ import frc.robot.utils.Constants;
 import frc.robot.utils.simulation.AngularArmSim;
 import frc.robot.utils.simulation.DrivetrainSim;
 import frc.robot.utils.simulation.LinearArmSim;
+import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
 
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -53,7 +54,7 @@ public class RobotContainer {
 
   private final DefaultDriveCommand defaultDriveCommand;
   private final Drivetrain drivetrain;
-  private final ThroughBoreSubsystem throughBoreSubsystem;
+  private final ThroughBoreSubsystem thou;
   
   private final ClawHardware clawHardware;
   private final LinearHardware linearHardware;
@@ -78,14 +79,14 @@ public class RobotContainer {
     logitech            = new Joystick(Constants.LOGITECH_ID);
 
     drivetrain          = new Drivetrain();
-    throughBoreSubsystem = new ThroughBoreSubsystem();
+    thou = new ThroughBoreSubsystem();
     defaultDriveCommand = new DefaultDriveCommand( drivetrain, logitech);
 
     clawHardware        = new ClawHardware();
     linearHardware      = new LinearHardware();
 
     if (RobotBase.isSimulation()) {
-      drivetrainSim = new DrivetrainSim(throughBoreSubsystem, drivetrain);
+      drivetrainSim = new DrivetrainSim(thou, drivetrain);
       linearArmSim = new LinearArmSim(linearHardware);
       angularArmSim = new AngularArmSim(clawHardware, linearHardware, linearArmSim);
     } else {
@@ -144,4 +145,9 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
       return autonomousCommand;
   }
+
+  public Drivetrain getDrivetrain() {
+    return drivetrain;
+  }
+
 }

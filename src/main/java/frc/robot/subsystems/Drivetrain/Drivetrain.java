@@ -19,6 +19,7 @@ public class Drivetrain extends SubsystemBase {
 
     private final PowerDistribution pdh = new PowerDistribution();
 
+
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
     public Drivetrain() {
@@ -32,15 +33,15 @@ public class Drivetrain extends SubsystemBase {
         leftBack.setInverted(InvertType.FollowMaster);
         rightBack.setInverted(InvertType.FollowMaster);
     }
-
-    private VictorSPX drivetrain(int id, boolean inverted) {
+     
+    public VictorSPX drivetrain(int id, boolean invertido) {
         VictorSPX motor = new VictorSPX(id);
-        motor.configFactoryDefault();
-        motor.setInverted(inverted);
-        motor.configNeutralDeadband(Constants.Drivetrain.deadzone);
         motor.setNeutralMode(NeutralMode.Brake);
+        motor.configNeutralDeadband(Constants.Drivetrain.deadzone);
+        motor.setInverted(invertido);
         return motor;
     }
+
 
     public void drive(double leftSpeed, double rightSpeed) {
         leftFront.set(ControlMode.PercentOutput, leftSpeed);

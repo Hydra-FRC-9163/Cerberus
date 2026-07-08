@@ -53,13 +53,12 @@ public final class Constants {
     }
 
     public static final class Encoder {
-        public static final int portaEncoderA = 0;
-        public static final int portaEncoderB = 1;
 
-        // CRIADO PARA O SIMULADOR
-        // ADAPTAR PARA IGUALAR COM PORTA REAL
-        public static final int portaEncoderLeftA = 2;
-        public static final int portaEncoderLeftB = 3;
+        public static final int leftEncoderA = 1;
+        public static final int leftEncoderB = 2;
+        public static final int rightEncoderA = 3;
+        public static final int rightEncoderB = 4;
+
     }
 
     public static final class LimeLight {
