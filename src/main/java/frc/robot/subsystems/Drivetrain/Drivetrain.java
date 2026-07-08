@@ -20,10 +20,6 @@ public class Drivetrain extends SubsystemBase {
 
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-    protected Encoder leftEncoder = new Encoder(Constants.Encoder.leftEncoderA, Constants.Encoder.leftEncoderB);
-
-    protected Encoder rightEncoder = new Encoder(Constants.Encoder.rightEncoderA, Constants.Encoder.rightEncoderB);
-
     public Drivetrain() {}
 
     private VictorSPX drivetrain(int id, boolean inverted) {
@@ -64,9 +60,6 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset(){
-        
-        leftEncoder.reset();
-        rightEncoder.reset();
         gyro.reset();
     }
 }

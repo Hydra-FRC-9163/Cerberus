@@ -43,10 +43,14 @@ public class ThroughBoreSubsystem extends SubsystemBase {
     public double getLeftMeters() {
         return leftEncoder.getDistance();
     }
-
-    public double getSpeedMetersPerSecond() {
+    public double getRightMetersPerSecond() {
         return rightEncoder.getRate();
     }
+
+    public double getLeftMetersPerSecond() {
+        return leftEncoder.getRate();
+    }
+
 
     public void reset() {
         rightEncoder.reset();

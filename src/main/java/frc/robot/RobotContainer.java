@@ -37,7 +37,9 @@ import frc.robot.subsystems.Score.linear.LinearHardware;
 
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
+import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
 import frc.robot.utils.Constants;
+import frc.robot.utils.Simulation;
 
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -58,29 +60,33 @@ public class RobotContainer {
   private final RobotStressController stressController;
   private final DashboardPublisherStress stressPublisher;
   private final DriveModePublisher modePublisher;
+  private final ThroughBoreSubsystem thou;
 
   private final SequentialCommandGroup autonomousCommand;
-
-  public RobotContainer() {
-
-    controller          = new CommandPS5Controller(Constants.PS5_ID);
-    logitech            = new Joystick(Constants.LOGITECH_ID);
-
-    drivetrain          = new Drivetrain();
-    defaultDriveCommand = new DefaultDriveCommand( drivetrain, logitech);
-
-    clawHardware        = new ClawHardware();
-    linearHardware      = new LinearHardware();
-
-    clawManager         = new ClawManager(clawHardware);
-    linearManager       = new LinearManager(linearHardware);
-
-    stressMonitor       = new RobotStressMonitor();
-    stressController    = new RobotStressController();
-    stressPublisher     = new DashboardPublisherStress();
-    modePublisher       = new DriveModePublisher();
-
-    autonomousCommand   = new SequentialCommandGroup();
+  private Simulation simulation;
+  
+    public RobotContainer() {
+  
+      controller          = new CommandPS5Controller(Constants.PS5_ID);
+      logitech            = new Joystick(Constants.LOGITECH_ID);
+  
+      drivetrain          = new Drivetrain();
+      defaultDriveCommand = new DefaultDriveCommand( drivetrain, logitech);
+  
+      clawHardware        = new ClawHardware();
+      linearHardware      = new LinearHardware();
+  
+      clawManager         = new ClawManager(clawHardware);
+      linearManager       = new LinearManager(linearHardware);
+  
+      stressMonitor       = new RobotStressMonitor();
+      stressController    = new RobotStressController();
+      stressPublisher     = new DashboardPublisherStress();
+      modePublisher       = new DriveModePublisher();
+  
+      autonomousCommand   = new SequentialCommandGroup();
+      thou                = new ThroughBoreSubsystem();
+      simulation          = new Simulation(thou, drivetrain);
 
     drivetrain.setDefaultCommand(defaultDriveCommand);
     configureBindings();
