@@ -23,13 +23,18 @@ public class ThroughBoreSubsystem extends SubsystemBase {
         rightEncoder.setReverseDirection(true);
     }
 
-    public double getDistanceMeters() {
+    public double getDistanceMeters() { 
         return rightEncoder.getDistance();
     }
 
     public double getSpeedMetersPerSecond() {
         return rightEncoder.getRate();
     }
+
+    public double getLeftMetersPerSecond() {
+        return leftEncoder.getRate();
+    }
+
 
     public void reset() {
         leftEncoder.reset();

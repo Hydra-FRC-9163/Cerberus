@@ -31,7 +31,7 @@ public final class Constants {
         public static final int botaoX = 3;  // 50% (Circulo ou X)
 
         public static final double deadzone = 0.04;
-        
+
         public static final double wheelDiameterMeters = 0.06; 
     }
 
