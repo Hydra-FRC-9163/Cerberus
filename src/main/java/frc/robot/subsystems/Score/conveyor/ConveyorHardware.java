@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.Score.conveyor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,7 +22,6 @@ public class ConveyorHardware extends SubsystemBase {
     
     RollerMotor1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     RollerMotor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
 
   }
 
