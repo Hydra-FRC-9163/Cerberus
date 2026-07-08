@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
+import frc.robot.utils.simulation.DrivetrainSim;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -22,6 +23,8 @@ public class Drivetrain extends SubsystemBase {
 
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
+    private DrivetrainSim drivetrainSim;
+
     public Drivetrain() {
         leftFront  = drivetrain(Constants.Drivetrain.frenteleft, Constants.Drivetrain.leftinvertido);
         leftBack   = drivetrain(Constants.Drivetrain.trasleft, Constants.Drivetrain.leftinvertido);
@@ -32,6 +35,7 @@ public class Drivetrain extends SubsystemBase {
         rightBack.follow(rightFront);
         leftBack.setInverted(InvertType.FollowMaster);
         rightBack.setInverted(InvertType.FollowMaster);
+        
     }
      
     public VictorSPX drivetrain(int id, boolean invertido) {
@@ -77,5 +81,11 @@ public class Drivetrain extends SubsystemBase {
     public double getEstimatedChassisSpeedMps() {
         double averageOutput = (Math.abs(getLeftMotorOutput()) + Math.abs(getRightMotorOutput())) / 2.0;
         return averageOutput * 3.6;
+    }
+    @Override
+    public void periodic() {
+        if (drivetrainSim != null) {
+            drivetrainSim.Update();
+        }
     }
 }
