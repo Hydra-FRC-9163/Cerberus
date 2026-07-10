@@ -37,8 +37,8 @@ import frc.robot.subsystems.Score.linear.LinearHardware;
 
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
+import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 import frc.robot.utils.Constants;
-import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
 
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -61,7 +61,7 @@ public class RobotContainer {
   private final DriveModePublisher modePublisher;
 
   private final SequentialCommandGroup autonomousCommand;
-  private ThroughBoreSubsystem thou;
+  private ThroughBoreHardware thou;
   
     public RobotContainer() {
   
@@ -81,7 +81,7 @@ public class RobotContainer {
       stressController    = new RobotStressController();
       stressPublisher     = new DashboardPublisherStress();
       modePublisher       = new DriveModePublisher();
-      thou                 = new ThroughBoreSubsystem();
+      thou                 = new ThroughBoreHardware();
 
     autonomousCommand   = new SequentialCommandGroup();
 

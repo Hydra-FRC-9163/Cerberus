@@ -5,6 +5,8 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,6 +43,13 @@ public class Robot extends LoggedRobot {
   } catch (Exception e) {
       e.printStackTrace();
   } 
+  }
+
+  @Override
+  public void robotInit() {
+    UsbCamera camera = CameraServer.startAutomaticCapture(0);
+    camera.setResolution(1280, 960);
+    camera.setFPS(30);
   }
 
   @Override

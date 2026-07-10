@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
-import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
+import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 
 /**
  * Renamed from Simulation -> DrivetrainSim to make room for LinearArmSim / AngularArmSim
@@ -26,7 +26,7 @@ import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
  */
 public class DrivetrainSim extends SubsystemBase {
 
-    private final ThroughBoreSubsystem throughBoreSubsystem;
+    private final ThroughBoreHardware throughBoreSubsystem;
     private final Drivetrain drivetrain;
     private final DifferentialDriveOdometry odometry;
 
@@ -41,7 +41,7 @@ public class DrivetrainSim extends SubsystemBase {
     private final Pose3d poseA = new Pose3d();
     private final Pose3d poseB = new Pose3d();
 
-    public DrivetrainSim(ThroughBoreSubsystem throughBoreSubsystem, Drivetrain drivetrain) {
+    public DrivetrainSim(ThroughBoreHardware throughBoreSubsystem, Drivetrain drivetrain) {
         this.throughBoreSubsystem = throughBoreSubsystem;
         this.drivetrain = drivetrain;
 
