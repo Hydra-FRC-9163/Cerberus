@@ -40,7 +40,9 @@ import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
 import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 import frc.robot.utils.Constants;
+import frc.robot.utils.simulation.AngularArmSim;
 import frc.robot.utils.simulation.DrivetrainSim;
+import frc.robot.utils.simulation.LinearArmSim;
 
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -64,8 +66,11 @@ public class RobotContainer {
 
   private final SequentialCommandGroup autonomousCommand;
   private ThroughBoreHardware throughBore;
+
   private DrivetrainSim drivetrainSim;
-  
+  private AngularArmSim angularSim;
+  private LinearArmSim linearSim;
+
     public RobotContainer() {
   
       controller          = new CommandPS5Controller(Constants.PS5_ID);
@@ -89,6 +94,8 @@ public class RobotContainer {
       if (RobotBase.isSimulation()) {
         drivetrainSim = new DrivetrainSim(throughBore, drivetrain);
         drivetrain.attachSimulation(drivetrainSim);
+        linearSim = new LinearArmSim(linearHardware);
+        angularSim = new AngularArmSim(clawHardware, linearHardware, linearSim);
       }
 
     autonomousCommand   = new SequentialCommandGroup();
@@ -98,6 +105,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    
+    controller.options().onTrue(new InstantCommand(() -> defaultDriveCommand.toggleDriveMode()));
+
     controller.L2().whileTrue(new InstantCommand(() -> linearManager.AngularUp()));
     controller.R2().whileTrue(new InstantCommand(() -> linearManager.AngularDown()));
 

@@ -9,6 +9,8 @@ import com.ctre.phoenix.unmanaged.Unmanaged;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoException;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -50,9 +52,13 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
-    UsbCamera camera = CameraServer.startAutomaticCapture(0);
-    camera.setResolution(1280, 960);
-    camera.setFPS(30);
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    try {
+        camera.setResolution(320, 240); // ou o valor que você está usando
+        camera.setFPS(15);
+    } catch (VideoException e) {
+        DriverStation.reportWarning("Falha ao configurar câmera: " + e.getMessage(), false);
+    }
   }
 
   @Override
