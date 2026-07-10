@@ -7,13 +7,13 @@ public final class Constants {
   public static final int joystickid = 0;
 
     public static class Drivetrain {
-        public static final int frenteleft = 1;
-        public static final int trasleft = 2;
-        public static final int frenteright = 3;
-        public static final int trasright = 4;
+        public static final int frontLeft = 1;
+        public static final int backLeft = 2;
+        public static final int frontRight = 3;
+        public static final int backRight = 4;
 
-        public static final boolean leftinvertido = false;
-        public static final boolean rightinvertido = true;
+        public static final boolean isLeftInverted = false;
+        public static final boolean isRightInverted = true;
 
         public static final int eixoX = 0;
         public static final int eixoY = 1;

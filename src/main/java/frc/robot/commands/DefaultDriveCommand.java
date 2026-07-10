@@ -1,16 +1,16 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.utils.Constants;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.utils.MathUtils;
 import frc.robot.subsystems.Drivetrain.*;
 
 public class DefaultDriveCommand extends Command {
 
     private final Drivetrain drivetrain;
-    private final Joystick controle;
+    private final CommandPS5Controller controller;
 
     private int POV;
     private boolean botaoA, botaoB, botaoX, R1, L1;
@@ -19,9 +19,9 @@ public class DefaultDriveCommand extends Command {
 
     private final MathUtils math = new MathUtils();
 
-    public DefaultDriveCommand(Drivetrain drive, Joystick controle) {
+    public DefaultDriveCommand(Drivetrain drive, CommandPS5Controller controller) {
         this.drivetrain = drive;
-        this.controle = controle;
+        this.controller = controller;
         addRequirements(drivetrain);
     }
 
@@ -29,6 +29,9 @@ public class DefaultDriveCommand extends Command {
     public void initialize() {
         speed = 0.5;
         L2 = R2 = velEsq = velDir = 0;
+        SmartDashboard.setDefaultNumber("SimDrive/Forward", 0.0);
+        SmartDashboard.setDefaultNumber("SimDrive/Turn", 0.0);
+        SmartDashboard.setDefaultNumber("SimDrive/Speed", 0.5);
     }
 
     @Override
@@ -36,6 +39,11 @@ public class DefaultDriveCommand extends Command {
         lerControles();
         speedControl();
         atualizarSmartDashboard();
+
+        if (useSimDashboardDrive()) {
+            drivetrain.drive(velEsq, velDir);
+            return;
+        }
     
         if (POV != -1) {
             double[] velocidades = math.calcularPOV(POV, speed);
@@ -63,11 +71,13 @@ public class DefaultDriveCommand extends Command {
         }
     
         drivetrain.drive(velEsq, velDir);
+        SmartDashboard.putBoolean("Drive/CommandRunning", true);
     }
 
     @Override
     public void end(boolean interrompido) {
         drivetrain.stop();
+        SmartDashboard.putBoolean("Drive/CommandRunning", false);
     }
 
     @Override
@@ -76,21 +86,21 @@ public class DefaultDriveCommand extends Command {
     }
 
     private void lerControles() {
-        botaoA = controle.getRawButton(Constants.Drivetrain.botaoA);
-        botaoB = controle.getRawButton(Constants.Drivetrain.botaoB);
-        botaoX = controle.getRawButton(Constants.Drivetrain.botaoX);
+        botaoA = controller.triangle().getAsBoolean();
+        botaoB = controller.cross().getAsBoolean();
+        botaoX = controller.square().getAsBoolean();
 
-        eixoX1 = controle.getRawAxis(Constants.Drivetrain.eixoX);
-        eixoY1 = -controle.getRawAxis(Constants.Drivetrain.eixoY);
-        eixoX2 = controle.getRawAxis(Constants.Drivetrain.eixoX2);
-        eixoY2 = -controle.getRawAxis(Constants.Drivetrain.eixoY2);
+        eixoX1 = controller.getLeftX();
+        eixoY1 = -controller.getLeftY();
+        eixoX2 = controller.getRightX();
+        eixoY2 = -controller.getRightY();
 
-        R1 = controle.getRawButton(Constants.Drivetrain.R1);
-        L1 = controle.getRawButton(Constants.Drivetrain.L1);
-        L2 = controle.getRawAxis(Constants.Drivetrain.L2);
-        R2 = controle.getRawAxis(Constants.Drivetrain.R2);
+        R1 = controller.R1().getAsBoolean();
+        L1 = controller.L1().getAsBoolean();
+        L2 = controller.getL2Axis();
+        R2 = controller.getR2Axis();
 
-        POV = controle.getPOV();
+        POV = controller.getHID().getPOV();
     }
 
     private void speedControl() {
@@ -115,5 +125,30 @@ public class DefaultDriveCommand extends Command {
         SmartDashboard.putNumber("Eixo Y2", eixoY2);
         SmartDashboard.putNumber("Velocidade Esquerda", velEsq);
         SmartDashboard.putNumber("Velocidade Direita", velDir);
+    }
+
+    private boolean useSimDashboardDrive() {
+        if (!RobotBase.isSimulation()) {
+            return false;
+        }
+
+        double simForward = SmartDashboard.getNumber("SimDrive/Forward", 0.0);
+        double simTurn = SmartDashboard.getNumber("SimDrive/Turn", 0.0);
+        double simSpeed = SmartDashboard.getNumber("SimDrive/Speed", speed);
+
+        if (Math.abs(simForward) < 0.02 && Math.abs(simTurn) < 0.02) {
+            return false;
+        }
+
+        velEsq = clamp((simForward + simTurn) * simSpeed);
+        velDir = clamp((simForward - simTurn) * simSpeed);
+        SmartDashboard.putBoolean("Drive/CommandRunning", true);
+        SmartDashboard.putNumber("Velocidade Esquerda", velEsq);
+        SmartDashboard.putNumber("Velocidade Direita", velDir);
+        return true;
+    }
+
+    private double clamp(double value) {
+        return Math.max(-1.0, Math.min(1.0, value));
     }
 }

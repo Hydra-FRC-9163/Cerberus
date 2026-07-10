@@ -8,6 +8,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
 import frc.robot.utils.Constants;
 import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
+import frc.robot.utils.simulation.DrivetrainSim;
 
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -61,7 +63,8 @@ public class RobotContainer {
   private final DriveModePublisher modePublisher;
 
   private final SequentialCommandGroup autonomousCommand;
-  private ThroughBoreSubsystem thou;
+  private ThroughBoreSubsystem throughBore;
+  private DrivetrainSim drivetrainSim;
   
     public RobotContainer() {
   
@@ -69,7 +72,7 @@ public class RobotContainer {
       logitech            = new Joystick(Constants.LOGITECH_ID);
   
       drivetrain          = new Drivetrain();
-      defaultDriveCommand = new DefaultDriveCommand( drivetrain, logitech);
+      defaultDriveCommand = new DefaultDriveCommand(drivetrain, controller);
   
       clawHardware        = new ClawHardware();
       linearHardware      = new LinearHardware();
@@ -81,7 +84,12 @@ public class RobotContainer {
       stressController    = new RobotStressController();
       stressPublisher     = new DashboardPublisherStress();
       modePublisher       = new DriveModePublisher();
-      thou                 = new ThroughBoreSubsystem();
+      throughBore         = new ThroughBoreSubsystem();
+      
+      if (RobotBase.isSimulation()) {
+        drivetrainSim = new DrivetrainSim(throughBore, drivetrain);
+        drivetrain.attachSimulation(drivetrainSim);
+      }
 
     autonomousCommand   = new SequentialCommandGroup();
 

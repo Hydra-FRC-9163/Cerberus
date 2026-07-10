@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 import frc.robot.utils.simulation.DrivetrainSim;
@@ -24,12 +25,14 @@ public class Drivetrain extends SubsystemBase {
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
     private DrivetrainSim drivetrainSim;
+    private double leftCommandedOutput;
+    private double rightCommandedOutput;
 
     public Drivetrain() {
-        leftFront  = drivetrain(Constants.Drivetrain.frenteleft, Constants.Drivetrain.leftinvertido);
-        leftBack   = drivetrain(Constants.Drivetrain.trasleft, Constants.Drivetrain.leftinvertido);
-        rightFront = drivetrain(Constants.Drivetrain.frenteright, Constants.Drivetrain.rightinvertido);
-        rightBack  = drivetrain(Constants.Drivetrain.trasright, Constants.Drivetrain.rightinvertido);
+        leftFront  = drivetrain(Constants.Drivetrain.frontLeft, Constants.Drivetrain.isLeftInverted);
+        leftBack   = drivetrain(Constants.Drivetrain.backLeft, Constants.Drivetrain.isLeftInverted);
+        rightFront = drivetrain(Constants.Drivetrain.frontRight, Constants.Drivetrain.isRightInverted);
+        rightBack  = drivetrain(Constants.Drivetrain.backRight, Constants.Drivetrain.isRightInverted);
 
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
@@ -48,6 +51,8 @@ public class Drivetrain extends SubsystemBase {
 
 
     public void drive(double leftSpeed, double rightSpeed) {
+        leftCommandedOutput = leftSpeed;
+        rightCommandedOutput = rightSpeed;
         leftFront.set(ControlMode.PercentOutput, leftSpeed);
         rightFront.set(ControlMode.PercentOutput, rightSpeed);
     }
@@ -64,6 +69,14 @@ public class Drivetrain extends SubsystemBase {
         return rightFront.getMotorOutputPercent();
     }
 
+    public double getLeftCommandedOutput() {
+        return leftCommandedOutput;
+    }
+
+    public double getRightCommandedOutput() {
+        return rightCommandedOutput;
+    }
+
     public double getTotalRobotCurrent() {
         return pdh.getTotalCurrent();
     }
@@ -73,19 +86,29 @@ public class Drivetrain extends SubsystemBase {
             return getTotalRobotCurrent();
         }
 
-        double leftLoad = Math.abs(getLeftMotorOutput());
-        double rightLoad = Math.abs(getRightMotorOutput());
+        double leftLoad = Math.abs(getLeftCommandedOutput());
+        double rightLoad = Math.abs(getRightCommandedOutput());
         return (leftLoad + rightLoad) * 40.0;
     }
 
     public double getEstimatedChassisSpeedMps() {
-        double averageOutput = (Math.abs(getLeftMotorOutput()) + Math.abs(getRightMotorOutput())) / 2.0;
+        double averageOutput = (Math.abs(getLeftCommandedOutput()) + Math.abs(getRightCommandedOutput())) / 2.0;
         return averageOutput * 3.6;
     }
+
+    public void attachSimulation(DrivetrainSim drivetrainSim) {
+        this.drivetrainSim = drivetrainSim;
+    }
+
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Drive/LeftOutput", getLeftMotorOutput());
+        SmartDashboard.putNumber("Drive/RightOutput", getRightMotorOutput());
+        SmartDashboard.putNumber("Drive/LeftCommand", getLeftCommandedOutput());
+        SmartDashboard.putNumber("Drive/RightCommand", getRightCommandedOutput());
+
         if (drivetrainSim != null) {
-            drivetrainSim.Update();
+            drivetrainSim.update();
         }
     }
 }
