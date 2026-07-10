@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
-import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
+import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 
 public class DrivetrainSim {
 
-    private final ThroughBoreSubsystem throughBoreSubsystem;
+    private final ThroughBoreHardware throughBoreSubsystem;
     private final Drivetrain drivetrain;
     private final DifferentialDriveOdometry odometry;
 
@@ -34,7 +34,7 @@ public class DrivetrainSim {
     private ADXRS450_GyroSim gyroSim;
     private DifferentialDrivetrainSim driveSim;
 
-    public DrivetrainSim(ThroughBoreSubsystem throughBoreSubsystem, Drivetrain drivetrain) {
+    public DrivetrainSim(ThroughBoreHardware throughBoreSubsystem, Drivetrain drivetrain) {
         this.throughBoreSubsystem = throughBoreSubsystem;
         this.drivetrain = drivetrain;
 

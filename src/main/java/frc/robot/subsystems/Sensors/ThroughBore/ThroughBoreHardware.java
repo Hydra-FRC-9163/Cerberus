@@ -1,15 +1,15 @@
-package frc.robot.subsystems.Sensors;
+package frc.robot.subsystems.Sensors.ThroughBore;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.utils.Constants;
 
-public class ThroughBoreSubsystem extends SubsystemBase {
+public class ThroughBoreHardware extends SubsystemBase {
 
     public final Encoder leftEncoder;
     public final Encoder rightEncoder;
 
-    public ThroughBoreSubsystem() {
+    public ThroughBoreHardware() {
         leftEncoder  = new Encoder(Constants.Encoder.leftEncoderA, Constants.Encoder.leftEncoderB);
         rightEncoder = new Encoder(Constants.Encoder.rightEncoderA, Constants.Encoder.rightEncoderB);
 
@@ -21,23 +21,5 @@ public class ThroughBoreSubsystem extends SubsystemBase {
         leftEncoder.setDistancePerPulse(distancePerPulse);
         rightEncoder.setDistancePerPulse(distancePerPulse);
         rightEncoder.setReverseDirection(true);
-    }
-
-    public double getDistanceMeters() { 
-        return rightEncoder.getDistance();
-    }
-
-    public double getSpeedMetersPerSecond() {
-        return rightEncoder.getRate();
-    }
-
-    public double getLeftMetersPerSecond() {
-        return leftEncoder.getRate();
-    }
-
-
-    public void reset() {
-        leftEncoder.reset();
-        rightEncoder.reset();
     }
 }

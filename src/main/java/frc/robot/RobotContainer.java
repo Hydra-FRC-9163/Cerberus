@@ -38,8 +38,8 @@ import frc.robot.subsystems.Score.linear.LinearHardware;
 
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
+import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 import frc.robot.utils.Constants;
-import frc.robot.subsystems.Sensors.ThroughBoreSubsystem;
 import frc.robot.utils.simulation.DrivetrainSim;
 
 @SuppressWarnings("unused")
@@ -63,7 +63,7 @@ public class RobotContainer {
   private final DriveModePublisher modePublisher;
 
   private final SequentialCommandGroup autonomousCommand;
-  private ThroughBoreSubsystem throughBore;
+  private ThroughBoreHardware throughBore;
   private DrivetrainSim drivetrainSim;
   
     public RobotContainer() {
@@ -84,7 +84,7 @@ public class RobotContainer {
       stressController    = new RobotStressController();
       stressPublisher     = new DashboardPublisherStress();
       modePublisher       = new DriveModePublisher();
-      throughBore         = new ThroughBoreSubsystem();
+      throughBore         = new ThroughBoreHardware();
       
       if (RobotBase.isSimulation()) {
         drivetrainSim = new DrivetrainSim(throughBore, drivetrain);
