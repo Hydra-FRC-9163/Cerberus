@@ -19,7 +19,7 @@ from cameras.RIO2WPILIB import (
 
 LIME2_STREAM_URL = "http://10.91.63.2:1181/?action=stream"
 
-MODEL_PATH = "ChargedUp.pt"
+MODEL_PATH = r"C:\Users\Usuario\Cerberus\Dashboard\dashboard-bridge\py\cameras\ChargedUp.pt"
 CONF_THRESHOLD = 0.40
 
 INFER_DT = 0.05
