@@ -19,7 +19,7 @@ from cameras.RIO2WPILIB import (
 
 LIME2_STREAM_URL = "http://10.91.63.2:1181/?action=stream"
 
-MODEL_PATH = "gamepiece2026.pt"
+MODEL_PATH = "ChargedUp.pt"
 CONF_THRESHOLD = 0.40
 
 INFER_DT = 0.05

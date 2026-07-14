@@ -30,7 +30,6 @@ public class Robot extends LoggedRobot {
      Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
    
      if (RobotBase.isSimulation()) {
-       // Salva no ./logs (dentro da pasta do projeto) + envia via NT4
        Logger.addDataReceiver(new WPILOGWriter("logs"));
        Logger.addDataReceiver(new NT4Publisher());
 
@@ -38,11 +37,9 @@ public class Robot extends LoggedRobot {
        Logger.addDataReceiver(new NT4Publisher());
    
      } else {
-       // Robo real → salva no USB (/U) + envia via NT4
        Logger.addDataReceiver(new WPILOGWriter("/U/logs"));
        Logger.addDataReceiver(new NT4Publisher());
      }
-     //Logger.start();
      try {
       Logger.start();
   } catch (Exception e) {
@@ -52,12 +49,12 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
-    UsbCamera camera = CameraServer.startAutomaticCapture();
-    try {
-        camera.setResolution(320, 240); // ou o valor que você está usando
-        camera.setFPS(15);
-    } catch (VideoException e) {
-        DriverStation.reportWarning("Falha ao configurar câmera: " + e.getMessage(), false);
+    try{
+    UsbCamera camera = CameraServer.startAutomaticCapture(0);
+    camera.setResolution(1280, 960);
+    camera.setFPS(30);
+    } catch (Exception e){
+      System.out.println("Camera not found");
     }
   }
 
