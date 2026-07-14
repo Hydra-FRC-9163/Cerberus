@@ -12,11 +12,8 @@ import com.revrobotics.PersistMode;
 
 public class LinearHardware extends SubsystemBase {
    public SparkMax LinearMotor = new SparkMax(3, MotorType.kBrushless);
-   public SparkMax AngularMotor = new SparkMax(4, MotorType.kBrushless);
-
 
    SparkMaxConfig config1 = new SparkMaxConfig();
-   SparkMaxConfig config2 = new SparkMaxConfig();
 
   public LinearHardware() {
     config1.idleMode(SparkBaseConfig.IdleMode.kBrake)
@@ -32,46 +29,17 @@ public class LinearHardware extends SubsystemBase {
     config1.inverted(false);
     config1.smartCurrentLimit(40);
 
-    config2.idleMode(SparkBaseConfig.IdleMode.kBrake)
-    .closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(0.0001, 0.0, 0.001);
-
-    config2.closedLoop.feedForward
-    .kV(0.1)
-    .kS(0.1)
-    .kA(0.1);
-
-    config2.inverted(false);
-    config2.smartCurrentLimit(40);
-
     LinearMotor.configure(config1, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    AngularMotor.configure(config2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
   }
 
    public void setLinearSpeed(double speed) {
     LinearMotor.set(speed);
-  }
-  public void setAngularSpeed(double speed) {
-    AngularMotor.set(speed);
   }
   
   public void stopLinear() {
     LinearMotor.set(0);
   }
 
-  public void stopAngular() {
-    AngularMotor.set(0);
-  }
-
-  public void StopAll() {
-    LinearMotor.set(0);
-    AngularMotor.set(0);
-  }
-
   @Override
-  public void periodic() {
-
-  }
+  public void periodic() {}
 }

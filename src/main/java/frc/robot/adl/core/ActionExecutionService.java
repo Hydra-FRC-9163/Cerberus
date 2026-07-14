@@ -76,7 +76,9 @@ public final class ActionExecutionService {
         return switch (definition.category()) {
             case "intake" -> "ACQUIRING";
             case "score" -> "SCORING";
-            case "endgame" -> "CLIMBING";
+            // Charged Up 2023 nao tem climb - dashboard.json (Fase 1) ja usa
+            // "BALANCING" para o estado do charge station.
+            case "endgame" -> "BALANCING";
             case "safety" -> "EMERGENCY";
             case "movement" -> "MOVING";
             default -> definition.id().value().toUpperCase();

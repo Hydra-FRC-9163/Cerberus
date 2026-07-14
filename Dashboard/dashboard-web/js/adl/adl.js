@@ -17,8 +17,11 @@ const T = {
   endgame: topic(config, "endgame"),
   moving: topic(config, "driveMoving"),
   battery: topic(config, "robotBattery"),
-  rpmCur: topic(config, "shooterCurrentRpm"),
-  rpmTgt: topic(config, "shooterTargetRpm"),
+  armSetpoint: topic(config, "armAtSetpoint"),
+  pieceType: topic(config, "gamePieceType"),
+  nodeLevel: topic(config, "targetNodeLevel"),
+  tilt: topic(config, "chargeStationTilt"),
+  balanced: topic(config, "chargeStationBalanced"),
   intent: topic(config, "adlIntent")
 };
 
@@ -35,17 +38,19 @@ const el = {
   ctxAligned: document.getElementById("ctx-aligned"),
   ctxShooter: document.getElementById("ctx-shooter"),
   ctxPiece: document.getElementById("ctx-piece"),
+  ctxPieceType: document.getElementById("ctx-piece-type"),
   ctxEndgame: document.getElementById("ctx-endgame"),
   ctxMoving: document.getElementById("ctx-moving"),
   ctxBattery: document.getElementById("ctx-battery"),
-  ctxRpm: document.getElementById("ctx-rpm"),
+  ctxArm: document.getElementById("ctx-arm"),
+  ctxNodeLevel: document.getElementById("ctx-node-level"),
+  ctxTilt: document.getElementById("ctx-tilt"),
+  ctxBalanced: document.getElementById("ctx-balanced"),
   logList: document.getElementById("log-list")
 };
 
 let matchActive = false;
 let lastState = "";
-let _rpmCur = 0;
-let _rpmTgt = 0;
 
 onConnectionChange((online) => {
   if (!el.connDot || !el.connLabel) return;
@@ -84,13 +89,20 @@ onNTMessage((topicName, value) => {
     case T.battery:
       setBattery(Number(value));
       break;
-    case T.rpmCur:
-      _rpmCur = Number(value);
-      updateRpm();
+    case T.armSetpoint:
+      setPill(el.ctxArm, Boolean(value));
       break;
-    case T.rpmTgt:
-      _rpmTgt = Number(value);
-      updateRpm();
+    case T.pieceType:
+      setPieceType(String(value));
+      break;
+    case T.nodeLevel:
+      if (el.ctxNodeLevel) el.ctxNodeLevel.textContent = String(value);
+      break;
+    case T.tilt:
+      setTilt(Number(value));
+      break;
+    case T.balanced:
+      setPill(el.ctxBalanced, Boolean(value));
       break;
   }
 });
@@ -108,11 +120,18 @@ function setBattery(voltage) {
     voltage < 10 ? "var(--danger)" : voltage < 11 ? "var(--warn)" : "var(--accent)";
 }
 
-function updateRpm() {
-  if (!el.ctxRpm) return;
-  el.ctxRpm.textContent = _rpmCur.toFixed(0) + " / " + _rpmTgt.toFixed(0) + " rpm";
-  el.ctxRpm.style.color =
-    Math.abs(_rpmCur - _rpmTgt) < 100 ? "var(--ok)" : "var(--accent)";
+function setPieceType(type) {
+  if (!el.ctxPieceType) return;
+  const label = type === "CONE" ? "CONE" : type === "CUBE" ? "CUBO" : "--";
+  el.ctxPieceType.textContent = label;
+  el.ctxPieceType.style.color =
+    type === "CONE" ? "var(--warn)" : type === "CUBE" ? "var(--accent)" : "var(--dim)";
+}
+
+function setTilt(deg) {
+  if (!el.ctxTilt || !Number.isFinite(deg)) return;
+  el.ctxTilt.textContent = deg.toFixed(1) + "°";
+  el.ctxTilt.style.color = Math.abs(deg) <= 2.5 ? "var(--ok)" : "var(--warn)";
 }
 
 function setMatchActive(active) {

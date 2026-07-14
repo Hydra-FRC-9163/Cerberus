@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Score.angular.AngularHardware;
 import frc.robot.subsystems.Score.claw.ClawHardware;
 import frc.robot.subsystems.Score.linear.LinearHardware;
 
@@ -51,6 +52,7 @@ public class AngularArmSim extends SubsystemBase {
     private final ClawHardware clawHardware;
     private final LinearArmSim linearArmSim;
     private final LinearHardware linearHardware;
+    private final AngularHardware angularHardware;
 
     private boolean hasGamePiece = false;
 
@@ -60,13 +62,14 @@ public class AngularArmSim extends SubsystemBase {
     private final MechanismLigament2d armLigament;
     private final MechanismLigament2d intakeLigament;
 
-    public AngularArmSim(ClawHardware clawHardware, LinearHardware linearHardware, LinearArmSim linearArmSim) {
+    public AngularArmSim(ClawHardware clawHardware, LinearHardware linearHardware, LinearArmSim linearArmSim, AngularHardware angularHardware) {
         this.clawHardware = clawHardware;
         this.linearHardware = linearHardware;
         this.linearArmSim = linearArmSim;
+        this.angularHardware = angularHardware;
 
         DCMotor gearbox = DCMotor.getNEO(1);
-        angularMotorSim = new SparkMaxSim(linearHardware.AngularMotor, gearbox);
+        angularMotorSim = new SparkMaxSim(angularHardware.AngularMotor, gearbox);
 
         armSim = new SingleJointedArmSim(
             gearbox,
@@ -141,7 +144,7 @@ public class AngularArmSim extends SubsystemBase {
     public double getAngleDegrees() {
         return RobotBase.isSimulation()
             ? Units.radiansToDegrees(armSim.getAngleRads())
-            : linearHardware.AngularMotor.getEncoder().getPosition();
+            : angularHardware.AngularMotor.getEncoder().getPosition();
     }
 
     public double getCurrentDrawAmps() {

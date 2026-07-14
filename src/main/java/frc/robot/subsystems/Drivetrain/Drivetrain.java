@@ -21,7 +21,6 @@ public class Drivetrain extends SubsystemBase {
 
     private final PowerDistribution pdh = new PowerDistribution();
 
-
     public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
     private DrivetrainSim drivetrainSim;
@@ -38,7 +37,6 @@ public class Drivetrain extends SubsystemBase {
         rightBack.follow(rightFront);
         leftBack.setInverted(InvertType.FollowMaster);
         rightBack.setInverted(InvertType.FollowMaster);
-        
     }
      
     public VictorSPX drivetrain(int id, boolean invertido) {
@@ -48,7 +46,6 @@ public class Drivetrain extends SubsystemBase {
         motor.setInverted(invertido);
         return motor;
     }
-
 
     public void drive(double leftSpeed, double rightSpeed) {
         leftCommandedOutput = leftSpeed;
@@ -118,12 +115,18 @@ public class Drivetrain extends SubsystemBase {
         this.drivetrainSim = drivetrainSim;
     }
 
+    // Método seguro que retorna a inclinação atual (ângulo do Gyro)
+    public double getTilt() {
+        return gyro.getAngle();
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Drive/LeftOutput", getLeftMotorOutput());
         SmartDashboard.putNumber("Drive/RightOutput", getRightMotorOutput());
         SmartDashboard.putNumber("Drive/LeftCommand", getLeftCommandedOutput());
         SmartDashboard.putNumber("Drive/RightCommand", getRightCommandedOutput());
+        SmartDashboard.putNumber("Drive/GyroAngle", gyro.getAngle());
 
         if (drivetrainSim != null) {
             drivetrainSim.update();
