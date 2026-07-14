@@ -24,10 +24,11 @@
       "Confidence": { "type": "number", "default": 0 }
     },
     "Mechanisms": {
-      "ShooterReady": { "type": "boolean", "default": false },
+      "ArmAtSetpoint": { "type": "boolean", "default": false },
       "HasGamePiece": { "type": "boolean", "default": false },
+      "GamePieceType": { "type": "string", "default": "NONE" },
       "IntakeActive": { "type": "boolean", "default": false },
-      "ClimbAvailable": { "type": "boolean", "default": false }
+      "TargetNodeLevel": { "type": "string", "default": "LOW" }
     },
     "Game": {
       "Endgame": { "type": "boolean", "default": false }
@@ -40,9 +41,10 @@
       "SpeedLimited": { "type": "boolean", "default": false },
       "CurrentZone": { "type": "string", "default": "UNKNOWN" }
     },
-    "Shooter": {
-      "CurrentRPM": { "type": "number", "default": 0 },
-      "TargetRPM": { "type": "number", "default": 0 }
+    "ChargeStation": {
+      "TiltDeg": { "type": "number", "default": 0 },
+      "Balanced": { "type": "boolean", "default": false },
+      "BalanceModeActive": { "type": "boolean", "default": false }
     },
     "StreamDeck/IntakeAngle": {
       "toggleCount": { "type": "boolean", "default": false },
@@ -75,7 +77,6 @@
       "AimLockLime2": { "type": "number", "default": 0 },
       "AlignLime2": { "type": "number", "default": 0 },
       "AimLockLime2Plus": { "type": "number", "default": 0 },
-      "ShooterLime2Plus": { "type": "number", "default": 0 },
       "AlignPiece": { "type": "number", "default": 0 }
     }
   },
@@ -85,13 +86,16 @@
     "adlIntent": "/ADL/intent",
     "visionHasTarget": "/Vision/HasTarget",
     "visionAligned": "/Vision/Aligned",
-    "shooterReady": "/Mechanisms/ShooterReady",
+    "armAtSetpoint": "/Mechanisms/ArmAtSetpoint",
     "hasGamePiece": "/Mechanisms/HasGamePiece",
+    "gamePieceType": "/Mechanisms/GamePieceType",
+    "targetNodeLevel": "/Mechanisms/TargetNodeLevel",
     "endgame": "/Game/Endgame",
     "driveMoving": "/Drive/Moving",
     "robotBattery": "/Robot/BatteryVoltage",
-    "shooterCurrentRpm": "/Shooter/CurrentRPM",
-    "shooterTargetRpm": "/Shooter/TargetRPM",
+    "chargeStationTilt": "/ChargeStation/TiltDeg",
+    "chargeStationBalanced": "/ChargeStation/Balanced",
+    "chargeStationBalanceMode": "/ChargeStation/BalanceModeActive",
     "stressBatteryVoltage": "/RobotStress/batteryVoltage",
     "stressTotalCurrent": "/RobotStress/totalCurrent",
     "stressDrivetrainCurrent": "/RobotStress/drivetrainCurrent",
@@ -107,15 +111,15 @@
       "MOVING": { "icon": ">", "description": "Robo em movimento" },
       "ACQUIRING": { "icon": "v", "description": "Coletando game piece" },
       "SCORING": { "icon": "*", "description": "Executando pontuacao" },
-      "CLIMBING": { "icon": "^", "description": "Iniciando escalada" },
+      "BALANCING": { "icon": "^", "description": "Balanceando no charge station" },
       "BLOCKED": { "icon": "x", "description": "Estado bloqueado" },
       "EMERGENCY": { "icon": "!", "description": "ABORTAR - EMERGENCIA" }
     },
     "intents": {
       "acquirePiece": "ACQUIRE_PIECE",
       "score": "SCORE",
-      "moveDepot": "MOVE_DEPOT",
-      "climb": "CLIMB",
+      "moveSubstation": "MOVE_SUBSTATION",
+      "balance": "BALANCE",
       "holdPosition": "HOLD_POSITION",
       "abort": "ABORT"
     }

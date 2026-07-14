@@ -110,6 +110,10 @@
               <span class="ctx-pill" id="ctx-piece">OFF</span>
             </div>
             <div class="ctx-item">
+              <span class="ctx-lbl">Tipo de Peça</span>
+              <span class="ctx-val" id="ctx-piece-type">--</span>
+            </div>
+            <div class="ctx-item">
               <span class="ctx-lbl">Endgame</span>
               <span class="ctx-pill" id="ctx-endgame">OFF</span>
             </div>
@@ -117,9 +121,18 @@
               <span class="ctx-lbl">Em Movimento</span>
               <span class="ctx-pill" id="ctx-moving">OFF</span>
             </div>
+            <div class="ctx-item">
+              <span class="ctx-lbl">Braço no Setpoint</span>
+              <span class="ctx-pill" id="ctx-arm">OFF</span>
+            </div>
+            <div class="ctx-item">
+              <span class="ctx-lbl">Nó Alvo</span>
+              <span class="ctx-val" id="ctx-node-level">LOW</span>
+            </div>
             <div class="ctx-item full">
-              <span class="ctx-lbl">Shooter RPM</span>
-              <span class="ctx-val" id="ctx-rpm">-- / -- rpm</span>
+              <span class="ctx-lbl">Charge Station</span>
+              <span class="ctx-val" id="ctx-tilt">0.0°</span>
+              <span class="ctx-pill" id="ctx-balanced">OFF</span>
             </div>
           </div>
         </div>
@@ -130,8 +143,8 @@
           <div class="intent-grid">
             <button class="ibtn acquire" onclick="sendIntent('ACQUIRE_PIECE')">⬇ Coletar</button>
             <button class="ibtn score"   onclick="sendIntent('SCORE')">◎ Pontuar</button>
-            <button class="ibtn move"    onclick="sendIntent('MOVE_DEPOT')">→ Depot</button>
-            <button class="ibtn climb"   onclick="sendIntent('CLIMB')">↑ Escalar</button>
+            <button class="ibtn move"    onclick="sendIntent('MOVE_SUBSTATION')">→ Substation</button>
+            <button class="ibtn climb"   onclick="sendIntent('BALANCE')">⚖ Balancear</button>
             <button class="ibtn hold"    onclick="sendIntent('HOLD_POSITION')">○ Hold</button>
             <button class="ibtn abort"   onclick="sendIntent('ABORT')">⚠ ABORT</button>
           </div>

@@ -7,12 +7,15 @@ import frc.robot.adl.core.ActionRequest;
 import frc.robot.adl.core.RobotContextFacts;
 import frc.robot.subsystems.Score.angular.AngularManager;
 import frc.robot.subsystems.Score.claw.ClawManager;
+import frc.robot.subsystems.Score.claw.GamePieceType;
 import frc.robot.subsystems.Score.linear.LinearManager;
 
 public final class AcquirePieceHandler implements ActionHandler {
-    
+
     private final ClawManager claw;
+    @SuppressWarnings("unused")
     private final LinearManager linear;
+    @SuppressWarnings("unused")
     private final AngularManager angular;
 
     public AcquirePieceHandler(
@@ -27,10 +30,23 @@ public final class AcquirePieceHandler implements ActionHandler {
 
     @Override
     public Command createCommand(ActionRequest request, RobotContextFacts context) {
-        return Commands.sequence(
-            Commands.runOnce(() -> claw.stopClawMotor(), claw),
-            Commands.runOnce(() -> linear.LinearStop(), linear),
-            Commands.runOnce(() -> angular.AngularStop(), angular)
-        );
+        GamePieceType pieceType = parsePieceType(request);
+
+        return Commands.runOnce(() -> {
+            claw.selectIntakeType(pieceType);
+            claw.Intake();
+        }, claw);
+    }
+
+    private GamePieceType parsePieceType(ActionRequest request) {
+        Object raw = request.parameters().get("pieceType");
+        if (raw == null) {
+            return claw.getSelectedIntakeType();
+        }
+        try {
+            return GamePieceType.valueOf(raw.toString().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return claw.getSelectedIntakeType();
+        }
     }
 }
