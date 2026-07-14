@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.utils.MathUtils;
 import frc.robot.subsystems.Drivetrain.*;
@@ -13,7 +14,7 @@ public class DefaultDriveCommand extends Command {
     private final CommandPS5Controller controller;
 
     private int POV;
-    private boolean botaoA, botaoB, botaoX, R1, L1;
+    private boolean botaoA, botaoB, botaoX, R1, L1, differentialMode;
     private double speed, velEsq, velDir, L2, R2, eixoX1, eixoX2, eixoY1, eixoY2;
 
 
@@ -29,9 +30,7 @@ public class DefaultDriveCommand extends Command {
     public void initialize() {
         speed = 0.5;
         L2 = R2 = velEsq = velDir = 0;
-        SmartDashboard.setDefaultNumber("SimDrive/Forward", 0.0);
-        SmartDashboard.setDefaultNumber("SimDrive/Turn", 0.0);
-        SmartDashboard.setDefaultNumber("SimDrive/Speed", 0.5);
+        differentialMode = false;
     }
 
     @Override
@@ -45,22 +44,9 @@ public class DefaultDriveCommand extends Command {
             return;
         }
     
-        if (POV != -1) {
-            double[] velocidades = math.calcularPOV(POV, speed);
-            velEsq = velocidades[0];
-            velDir = velocidades[1];
-        }
-        else if (math.calcularL2(L2, R2, speed) != 0) {
-            double v = math.calcularL2(L2, R2, speed);
-            velEsq = v;
-            velDir = v;
-        }
-        else if (math.calcularR2(L2, R2, speed) != 0) {
-            double v = math.calcularR2(L2, R2, speed);
-            velEsq = -v;
-            velDir = -v;
-        }
-        else {
+        if (differentialMode) { 
+            drivetrain.diffDrive(eixoY1, eixoX2, speed);
+        } else {
             double[] magSeno = math.calcularMagESeno(
                 eixoX1, -eixoX2, 
                 eixoY1, eixoY2  
@@ -68,9 +54,10 @@ public class DefaultDriveCommand extends Command {
             double[] velocidades = math.calcularAnalogicos(magSeno, speed, eixoX1, eixoY1, -eixoX2, eixoY2);
             velEsq = velocidades[0];
             velDir = velocidades[1];
+
+            drivetrain.drive(velEsq, velDir);
         }
     
-        drivetrain.drive(velEsq, velDir);
         SmartDashboard.putBoolean("Drive/CommandRunning", true);
     }
 
@@ -107,6 +94,10 @@ public class DefaultDriveCommand extends Command {
         if (botaoA) speed = 0.25;
         else if (botaoB) speed = 0.5;
         else if (botaoX) speed = 1;
+    }
+
+    public void toggleDriveMode() {
+        differentialMode = !differentialMode;
     }
 
     private void atualizarSmartDashboard() {

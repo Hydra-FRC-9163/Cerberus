@@ -57,6 +57,24 @@ public class Drivetrain extends SubsystemBase {
         rightFront.set(ControlMode.PercentOutput, rightSpeed);
     }
 
+    public void diffDrive(double forwardAxis, double turnAxis, double speed) {
+        double forward = deadband(forwardAxis) * speed;
+        double turn = deadband(turnAxis) * speed;
+
+        double left = clamp(forward + turn);
+        double right = clamp(forward - turn);
+
+        drive(left, right);
+    }
+
+    private double deadband(double value) {
+        return Math.abs(value) < Constants.Drivetrain.deadzone ? 0.0 : value;
+    }
+
+    private double clamp(double value) {
+        return Math.max(-1.0, Math.min(1.0, value));
+    }
+
     public void stop() {
         drive(0, 0);
     }
