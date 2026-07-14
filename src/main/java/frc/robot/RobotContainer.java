@@ -33,6 +33,8 @@ import frc.robot.adl.core.NetworkTablesActionIntentSource;
 import frc.robot.adl.core.SeasonRegistrationContext;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.subsystems.Score.angular.AngularHardware;
+import frc.robot.subsystems.Score.angular.AngularManager;
 import frc.robot.subsystems.Score.claw.ClawHardware;
 import frc.robot.subsystems.Score.linear.LinearHardware;
 
@@ -59,6 +61,9 @@ public class RobotContainer {
   private final ClawManager clawManager;
   private final LinearManager linearManager;
 
+  private final AngularHardware angularHardware;
+  private final AngularManager angularManager;
+
   private final RobotStressMonitor stressMonitor;
   private final RobotStressController stressController;
   private final DashboardPublisherStress stressPublisher;
@@ -84,6 +89,9 @@ public class RobotContainer {
   
       clawManager         = new ClawManager(clawHardware);
       linearManager       = new LinearManager(linearHardware);
+
+      angularHardware     = new AngularHardware();
+      angularManager      = new AngularManager(angularHardware);
   
       stressMonitor       = new RobotStressMonitor();
       stressController    = new RobotStressController();
@@ -95,7 +103,7 @@ public class RobotContainer {
         drivetrainSim = new DrivetrainSim(throughBore, drivetrain);
         drivetrain.attachSimulation(drivetrainSim);
         linearSim = new LinearArmSim(linearHardware);
-        angularSim = new AngularArmSim(clawHardware, linearHardware, linearSim);
+        angularSim = new AngularArmSim(clawHardware, linearHardware, linearSim, angularHardware);
       }
 
     autonomousCommand   = new SequentialCommandGroup();
@@ -108,8 +116,8 @@ public class RobotContainer {
     
     controller.options().onTrue(new InstantCommand(() -> defaultDriveCommand.toggleDriveMode()));
 
-    controller.L2().whileTrue(new InstantCommand(() -> linearManager.AngularUp()));
-    controller.R2().whileTrue(new InstantCommand(() -> linearManager.AngularDown()));
+    controller.L2().whileTrue(new InstantCommand(() -> angularManager.AngularUp()));
+    controller.R2().whileTrue(new InstantCommand(() -> angularManager.AngularDown()));
 
     controller.L1().whileTrue(new InstantCommand(() -> linearManager.LinearUp()));
     controller.R1().whileTrue(new InstantCommand(() -> linearManager.LinearDown()));

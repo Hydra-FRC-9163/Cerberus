@@ -7,6 +7,7 @@ import frc.robot.adl.core.SeasonModule;
 import frc.robot.adl.core.SeasonRegistrationContext;
 import frc.robot.adl.core.ZoneDefinition;
 import frc.robot.seasons.season2023.handlers.AbortHandler;
+import frc.robot.subsystems.Score.angular.AngularManager;
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.linear.LinearManager;
 
@@ -18,13 +19,16 @@ public final class Season2023Module implements SeasonModule {
 
     private final ClawManager claw;
     private final LinearManager linear;
+    private final AngularManager angular;
 
     public Season2023Module(
             ClawManager claw,
-            LinearManager linear
+            LinearManager linear,
+            AngularManager angular
     ) {
         this.claw = claw;
         this.linear = linear;
+        this.angular = angular;
     }
 
     @Override
@@ -66,7 +70,7 @@ public final class Season2023Module implements SeasonModule {
                 .defaultPriority(1000)
                 .allowedInEndgame(true)
                 .build(),
-            new AbortHandler(claw, linear)
+            new AbortHandler(claw, linear, angular)
         );
     }
 }
