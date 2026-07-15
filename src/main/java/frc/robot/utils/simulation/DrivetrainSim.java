@@ -2,6 +2,8 @@ package frc.robot.utils.simulation;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -43,6 +45,7 @@ public class DrivetrainSim {
             throughBoreSubsystem.leftEncoder.getDistance(),
             throughBoreSubsystem.rightEncoder.getDistance()
         );
+
 
         SmartDashboard.putData("Field", field);
         pose2dPublisher = NetworkTableInstance.getDefault()
@@ -98,8 +101,6 @@ public class DrivetrainSim {
         );
         driveSim.update(0.02);
 
-        // rightEncoder already has setReverseDirection(true) set in ThroughBoreSubsystem -
-        // do NOT negate again here, or the right side gets double-inverted.
         leftEncoderSim.setDistance(driveSim.getLeftPositionMeters());
         rightEncoderSim.setDistance(driveSim.getRightPositionMeters());
         leftEncoderSim.setRate(driveSim.getLeftVelocityMetersPerSecond());
