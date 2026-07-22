@@ -126,7 +126,15 @@ public class RobotContainer {
     controller.cross().whileTrue(new InstantCommand(() -> clawManager.Outtake()));
   }
 
-  public void periodic() {}
+  public void periodic() {
+    var stressData = stressMonitor.generateData(drivetrain);
+    stressController.update(stressData);
+    stressPublisher.publish(
+        stressData,
+        //drivetrain.getChassisSpeed(),    
+        stressController.getSpeedScale()
+    );
+}
 
     public Command getAutonomousCommand() {
       return autonomousCommand;

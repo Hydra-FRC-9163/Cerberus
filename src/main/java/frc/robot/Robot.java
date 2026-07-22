@@ -65,6 +65,7 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
 
       CommandScheduler.getInstance().run();
+      m_robotContainer.periodic();
 
     // System.out.println(CommandScheduler.getInstance().requiring(drivetrain));
   }
@@ -101,7 +102,9 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
 
   @Override
   public void teleopExit() {}
