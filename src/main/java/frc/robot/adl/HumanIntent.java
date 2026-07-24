@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.Timer;
 public final class HumanIntent {
 
     public enum Type {
-        ACQUIRE_PIECE, SCORE_PIECE, MOVE_TO_ZONE, ESCAPE, CLIMB, HOLD_POSITION, ABORT
+        ACQUIRE_PIECE, SCORE_PIECE, MOVE_TO_OUTPOST, BALANCE, ABORT
     }
 
     public enum GameZone {
-        DEPOT, TRENCH, HUB, OUTPOST, TOWER, BUMP, UNKNOWN
+        PIECES, BARRIER, GRIDS, OUTPOST, STATION, SINGLE, UNKNOWN
     }
 
     private final Type type;
@@ -35,11 +35,11 @@ public final class HumanIntent {
     }
 
     public static HumanIntent moveTo(GameZone zone) {
-        return new HumanIntent(Type.MOVE_TO_ZONE, zone, 0.5, false);
+        return new HumanIntent(Type.MOVE_TO_OUTPOST, zone, 0.5, false);
     }
 
-    public static HumanIntent climb() {
-        return new HumanIntent(Type.CLIMB, GameZone.TOWER, 0.9, false);
+    public static HumanIntent balance() {
+        return new HumanIntent(Type.BALANCE, GameZone.STATION, 0.9, false);
     }
 
     public static HumanIntent abort() {

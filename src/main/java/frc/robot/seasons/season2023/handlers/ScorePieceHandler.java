@@ -6,25 +6,23 @@ import frc.robot.adl.core.ActionHandler;
 import frc.robot.adl.core.ActionRequest;
 import frc.robot.adl.core.RobotContextFacts;
 import frc.robot.subsystems.Score.angular.AngularManager;
-import frc.robot.subsystems.Score.linear.LinearManager;
+import frc.robot.subsystems.Score.claw.ClawManager;
 
 public final class ScorePieceHandler implements ActionHandler {
 
-    private final LinearManager linear;
+    private final ClawManager claw;
     private final AngularManager angular;
 
-    public ScorePieceHandler(LinearManager linear, AngularManager angular) {
-        this.linear = linear;
+    public ScorePieceHandler(ClawManager claw, AngularManager angular) {
+        this.claw = claw;
         this.angular = angular;
     }
 
     @Override
     public Command createCommand(ActionRequest request, RobotContextFacts context) {
-        // Retorna um comando de segurança padrão para garantir que os braços parem
-        // de subir/descer ao executar a ação de pontuar.
-        return Commands.sequence(
-            Commands.runOnce(() -> linear.LinearStop(), linear),
-            Commands.runOnce(() -> angular.AngularStop(), angular)
-        );
+        return Commands.runOnce(() -> {
+            angular.AngularStop();
+            claw.Outtake();
+        }, claw, angular);
     }
 }

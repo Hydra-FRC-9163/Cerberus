@@ -1,5 +1,3 @@
 package frc.robot.Dashboards.ADLDashboard;
 
-public class ADLData {
-    
-}
+public record ADLData(String state, String activeAction, String decision) {}

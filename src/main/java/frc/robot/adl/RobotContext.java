@@ -10,8 +10,8 @@ public class RobotContext {
     public final boolean speedLimited;
     public final boolean hasGamePiece;
     public final boolean intakeActive;
-    public final boolean shooterReady;
-    public final boolean climbAvailable;
+    public final boolean isAngling;
+    public final boolean isBalancing;
     public final boolean visionHasTarget;
     public final boolean visionAligned;
     public final double visionConfidence;
@@ -27,8 +27,8 @@ public class RobotContext {
         this.speedLimited     = b.speedLimited;
         this.hasGamePiece     = b.hasGamePiece;
         this.intakeActive     = b.intakeActive;
-        this.shooterReady     = b.shooterReady;
-        this.climbAvailable   = b.climbAvailable;
+        this.isAngling        = b.isAngling;
+        this.isBalancing      = b.isBalancing;
         this.visionHasTarget  = b.visionHasTarget;
         this.visionAligned    = b.visionAligned;
         this.visionConfidence = b.visionConfidence;
@@ -45,25 +45,25 @@ public class RobotContext {
     public static class Builder {
         private double batteryVoltage, stressScore, visionConfidence;
         private String stressLevel;
-        private boolean speedLimited, hasGamePiece, intakeActive, shooterReady,
-                        climbAvailable, visionHasTarget, visionAligned, robotMoving, endgame;
+        private boolean speedLimited, hasGamePiece, intakeActive, isAngling,
+                        isBalancing, visionHasTarget, visionAligned, robotMoving, endgame;
         private Pose2d robotPose;
-        private HumanIntent.GameZone currentZone;
+        private HumanIntent.GameZone currentZone = HumanIntent.GameZone.UNKNOWN;
 
         public Builder battery(double voltage, double stress, String level, boolean limited) {
             this.batteryVoltage = voltage; this.stressScore = stress;
             this.stressLevel = level; this.speedLimited = limited; return this;
         }
-        public Builder mechanisms(boolean piece, boolean intake, boolean shooter, boolean climb) {
-            this.hasGamePiece = piece; this.intakeActive = intake;
-            this.shooterReady = shooter; this.climbAvailable = climb; return this;
+        public Builder mechanisms(boolean piece, boolean intake, boolean angular) {
+            this.hasGamePiece = piece; this.intakeActive = intake; this.isAngling = angular; return this;
         }
         public Builder vision(boolean target, boolean aligned, double confidence) {
             this.visionHasTarget = target; this.visionAligned = aligned;
             this.visionConfidence = confidence; return this;
         }
-        public Builder movement(Pose2d pose, boolean moving, HumanIntent.GameZone zone) {
-            this.robotPose = pose; this.robotMoving = moving; this.currentZone = zone; return this;
+        public Builder movement(Pose2d pose, boolean moving, boolean balance, HumanIntent.GameZone zone) {
+            this.robotPose = pose; this.robotMoving = moving; this.isBalancing = balance;
+            this.currentZone = zone != null ? zone : HumanIntent.GameZone.UNKNOWN; return this;
         }
         public Builder gameTime(boolean endgame) { this.endgame = endgame; return this; }
         public RobotContext build() { return new RobotContext(this); }

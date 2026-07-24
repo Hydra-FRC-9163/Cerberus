@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Score.angular.AngularHardware;
 import frc.robot.subsystems.Score.claw.ClawHardware;
-import frc.robot.subsystems.Score.linear.LinearHardware;
 
 /**
  * Physics simulation for the angular (pivot) stage of the scoring mechanism, using
@@ -44,14 +43,11 @@ public class AngularArmSim extends SubsystemBase {
     // Intake can only pick up a piece within this angle/extension window.
     private static final double COLLECT_ANGLE_MIN_DEG = -25.0;
     private static final double COLLECT_ANGLE_MAX_DEG = -5.0;
-    private static final double COLLECT_EXTENSION_MAX_METERS = 0.1;
     private static final double INTAKE_RUNNING_THRESHOLD = 0.1; // fraction of full speed
 
     private final SparkMaxSim angularMotorSim;
     private final SingleJointedArmSim armSim;
     private final ClawHardware clawHardware;
-    private final LinearArmSim linearArmSim;
-    private final LinearHardware linearHardware;
     private final AngularHardware angularHardware;
 
     private boolean hasGamePiece = false;
@@ -62,10 +58,8 @@ public class AngularArmSim extends SubsystemBase {
     private final MechanismLigament2d armLigament;
     private final MechanismLigament2d intakeLigament;
 
-    public AngularArmSim(ClawHardware clawHardware, LinearHardware linearHardware, LinearArmSim linearArmSim, AngularHardware angularHardware) {
+    public AngularArmSim(ClawHardware clawHardware, AngularHardware angularHardware) {
         this.clawHardware = clawHardware;
-        this.linearHardware = linearHardware;
-        this.linearArmSim = linearArmSim;
         this.angularHardware = angularHardware;
 
         DCMotor gearbox = DCMotor.getNEO(1);
@@ -116,11 +110,9 @@ public class AngularArmSim extends SubsystemBase {
     private void updateIntakeSim() {
         double clawSpeed = clawHardware.clawMotor.get();
         double angleDeg = Units.radiansToDegrees(armSim.getAngleRads());
-        double extensionMeters = linearArmSim.getHeightMeters(linearHardware);
 
         boolean inCollectPosition =
-            angleDeg >= COLLECT_ANGLE_MIN_DEG && angleDeg <= COLLECT_ANGLE_MAX_DEG
-            && extensionMeters <= COLLECT_EXTENSION_MAX_METERS;
+            angleDeg >= COLLECT_ANGLE_MIN_DEG && angleDeg <= COLLECT_ANGLE_MAX_DEG;
 
         if (!hasGamePiece && clawSpeed > INTAKE_RUNNING_THRESHOLD && inCollectPosition) {
             hasGamePiece = true;
@@ -131,7 +123,6 @@ public class AngularArmSim extends SubsystemBase {
 
     private void updateMechanism() {
         armLigament.setAngle(Units.radiansToDegrees(armSim.getAngleRads()));
-        armLigament.setLength(ARM_LENGTH_METERS + linearArmSim.getHeightMeters(linearHardware));
         intakeLigament.setColor(hasGamePiece
             ? new edu.wpi.first.wpilibj.util.Color8Bit(0, 255, 0)
             : new edu.wpi.first.wpilibj.util.Color8Bit(255, 0, 0));
