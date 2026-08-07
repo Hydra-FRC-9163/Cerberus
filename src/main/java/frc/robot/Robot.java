@@ -9,13 +9,20 @@ import com.ctre.phoenix.unmanaged.Unmanaged;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.AddressableLEDBufferView;
+import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
+  private AddressableLED m_led;
+  private AddressableLEDBuffer m_ledBuffer;
 
   private final RobotContainer m_robotContainer;
   @SuppressWarnings("unused")
@@ -24,6 +31,20 @@ public class Robot extends LoggedRobot {
   public Robot() {
     m_robotContainer = new RobotContainer();
     drivetrain = m_robotContainer.getDrivetrain();
+
+       m_led = new AddressableLED(9);
+
+     m_ledBuffer = new AddressableLEDBuffer(60);
+     m_led.setLength(m_ledBuffer.getLength());
+
+     LEDPattern red = LEDPattern.solid(Color.kRed);
+
+     red.applyTo(m_ledBuffer);
+     m_led.setData(m_ledBuffer);
+
+     m_led.setData(m_ledBuffer);
+     m_led.start();
+
      Logger.recordMetadata("ProjectName", "Binga"); 
      Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
    

@@ -42,7 +42,6 @@ public class LinearArmSim extends SubsystemBase {
 
     @Override
     public void simulationPeriodic() {
-      
         double vbus = RobotController.getBatteryVoltage();
         double appliedVoltage = linearMotorSim.getAppliedOutput() * vbus;
         elevatorSim.setInputVoltage(appliedVoltage);
