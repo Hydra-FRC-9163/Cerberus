@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Score.angular.AngularHardware;
 
 public class LinearArmSim extends SubsystemBase {
 
@@ -21,10 +22,10 @@ public class LinearArmSim extends SubsystemBase {
     private final SparkMaxSim linearMotorSim;
     private final ElevatorSim elevatorSim;
 
-    public LinearArmSim(LinearHardware linearHardware) {
+    public LinearArmSim(AngularHardware angularHardware) {
         DCMotor gearbox = DCMotor.getNEO(1);
 
-        linearMotorSim = new SparkMaxSim(linearHardware.LinearMotor, gearbox);
+        linearMotorSim = new SparkMaxSim(angularHardware.AngularMotor, gearbox);
 
         elevatorSim = new ElevatorSim(
             gearbox,
@@ -54,10 +55,10 @@ public class LinearArmSim extends SubsystemBase {
 
     }
 
-    public double getHeightMeters(LinearHardware linearHardware) {
+    public double getHeightMeters(AngularHardware angularHardware) {
         return RobotBase.isSimulation()
             ? elevatorSim.getPositionMeters()
-            : linearHardware.LinearMotor.getEncoder().getPosition();
+            : angularHardware.AngularMotor.getEncoder().getPosition();
     }
 
     public double getCurrentDrawAmps() {
