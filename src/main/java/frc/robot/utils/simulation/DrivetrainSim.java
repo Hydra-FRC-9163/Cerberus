@@ -2,8 +2,6 @@ package frc.robot.utils.simulation;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;

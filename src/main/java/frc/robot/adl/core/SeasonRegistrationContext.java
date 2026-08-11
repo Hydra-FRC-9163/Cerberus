@@ -64,6 +64,7 @@ public final class SeasonRegistrationContext {
     public ActionRegistry actionRegistry() { return actionRegistry; }
     public Map<String, ZoneDefinition> zones() { return Collections.unmodifiableMap(zones); }
     public Map<String, ObjectiveDefinition> objectives() { return Collections.unmodifiableMap(objectives); }
+    public ObjectiveManager objectiveManager() { return new ObjectiveManager(objectives); }
     public List<ActionConstraint> constraints() { return Collections.unmodifiableList(constraints); }
     public EndgameRules endgameRules() { return endgameRules; }
 }

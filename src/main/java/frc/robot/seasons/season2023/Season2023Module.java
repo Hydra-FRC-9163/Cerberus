@@ -3,6 +3,8 @@ package frc.robot.seasons.season2023;
 import java.util.Map;
 
 import frc.robot.adl.core.ActionDefinition;
+import frc.robot.adl.core.ActionId;
+import frc.robot.adl.core.ObjectiveDefinition;
 import frc.robot.adl.core.SeasonModule;
 import frc.robot.adl.core.SeasonRegistrationContext;
 import frc.robot.adl.core.ZoneDefinition;
@@ -14,7 +16,6 @@ import frc.robot.subsystems.Drivetrain.ChargeStationBalancer;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Score.angular.AngularManager;
 import frc.robot.subsystems.Score.claw.ClawManager;
-import frc.robot.subsystems.Score.linear.LinearManager;
 
 public final class Season2023Module implements SeasonModule {
     public static final String ACQUIRE_PIECE = "acquire_piece";
@@ -26,20 +27,17 @@ public final class Season2023Module implements SeasonModule {
     public static final String ABORT = "abort";
 
     private final ClawManager claw;
-    private final LinearManager linear;
     private final AngularManager angular;
     private final ChargeStationBalancer chargeStationBalancer;
     private final Drivetrain drivetrain;
 
     public Season2023Module(
             ClawManager claw,
-            LinearManager linear,
             AngularManager angular,
             ChargeStationBalancer chargeStationBalancer,
             Drivetrain drivetrain
     ) {
         this.claw = claw;
-        this.linear = linear;
         this.angular = angular;
         this.chargeStationBalancer = chargeStationBalancer;
         this.drivetrain = drivetrain;
@@ -54,6 +52,7 @@ public final class Season2023Module implements SeasonModule {
     public void register(SeasonRegistrationContext context) {
         registerZones(context);
         registerActions(context);
+        registerObjectives(context);
         registerConstraints(context);
     }
 
@@ -85,7 +84,7 @@ public final class Season2023Module implements SeasonModule {
                 .interruptible(false)
                 .allowedInEndgame(true)
                 .build(),
-            new AbortHandler(claw, linear, angular, chargeStationBalancer, drivetrain)
+            new AbortHandler(claw, angular, chargeStationBalancer, drivetrain)
         );
 
         context.registerAction(
@@ -96,7 +95,7 @@ public final class Season2023Module implements SeasonModule {
                 .interruptible(true)
                 .allowedInEndgame(false)
                 .build(),
-            new AcquirePieceHandler(claw, linear, angular)
+            new AcquirePieceHandler(claw, angular)
         );
 
         context.registerAction(
@@ -107,7 +106,7 @@ public final class Season2023Module implements SeasonModule {
                 .interruptible(true)
                 .allowedInEndgame(false)
                 .build(),
-            new ScorePieceHandler(linear, angular)
+            new ScorePieceHandler(claw, angular)
         );
 
         context.registerAction(
@@ -121,5 +120,20 @@ public final class Season2023Module implements SeasonModule {
                 .build(),
             new BalanceHandler(chargeStationBalancer, drivetrain)
         );
+    }
+
+    private void registerObjectives(SeasonRegistrationContext context) {
+        context.registerObjective(new ObjectiveDefinition(
+            "collect_game_piece", "Collect Game Piece", ActionId.of(ACQUIRE_PIECE), 5
+        ));
+        context.registerObjective(new ObjectiveDefinition(
+            "score_game_piece", "Score Game Piece", ActionId.of(SCORE_PIECE), 8
+        ));
+        context.registerObjective(new ObjectiveDefinition(
+            "balance_charge_station", "Balance Charge Station", ActionId.of(BALANCE), 10
+        ));
+        context.registerObjective(new ObjectiveDefinition(
+            "abort_current_action", "Abort Current Action", ActionId.of(ABORT), 1000
+        ));
     }
 }

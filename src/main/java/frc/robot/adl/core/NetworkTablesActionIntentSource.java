@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.networktables.BooleanSubscriber;
+import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringSubscriber;
 
@@ -11,9 +13,13 @@ public final class NetworkTablesActionIntentSource implements ActionIntentSource
     private final StringSubscriber actionSub;
     private final StringSubscriber zoneSub;
     private final StringSubscriber parametersSub;
+    private final DoubleSubscriber prioritySub;
+    private final BooleanSubscriber preemptSub;
+    private final DoubleSubscriber sequenceSub;
     private final StringSubscriber legacyIntentSub;
     private final Map<String, LegacyIntentMapping> legacyMappings;
     private String lastAction = "";
+    private double lastSequence = 0.0;
     private String lastLegacyIntent = "";
 
     public NetworkTablesActionIntentSource() {
@@ -25,6 +31,9 @@ public final class NetworkTablesActionIntentSource implements ActionIntentSource
         actionSub = nt.getStringTopic("/ADL/intent/actionId").subscribe("");
         zoneSub = nt.getStringTopic("/ADL/intent/zoneId").subscribe("unknown");
         parametersSub = nt.getStringTopic("/ADL/intent/parameters").subscribe("");
+        prioritySub = nt.getDoubleTopic("/ADL/intent/priority").subscribe(0.0);
+        preemptSub = nt.getBooleanTopic("/ADL/intent/preempt").subscribe(false);
+        sequenceSub = nt.getDoubleTopic("/ADL/intent/sequence").subscribe(0.0);
         legacyIntentSub = nt.getStringTopic("/ADL/intent").subscribe("");
         this.legacyMappings = Collections.unmodifiableMap(new HashMap<>(legacyMappings));
     }
@@ -32,9 +41,16 @@ public final class NetworkTablesActionIntentSource implements ActionIntentSource
     @Override
     public ActionRequest pollIntent() {
         String actionId = actionSub.get();
-        if (!actionId.isBlank() && !actionId.equals(lastAction)) {
+        double sequence = sequenceSub.get();
+        if (!actionId.isBlank() && (!actionId.equals(lastAction) || sequence != lastSequence)) {
             lastAction = actionId;
-            return buildRequest(actionId, zoneSub.get(), 0, false);
+            lastSequence = sequence;
+            return buildRequest(
+                actionId,
+                zoneSub.get(),
+                (int) Math.round(prioritySub.get()),
+                preemptSub.get()
+            );
         }
 
         String legacyIntent = legacyIntentSub.get();

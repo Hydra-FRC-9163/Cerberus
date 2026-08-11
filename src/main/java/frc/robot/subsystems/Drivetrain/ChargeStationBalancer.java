@@ -1,6 +1,9 @@
 package frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.BooleanPublisher;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -8,6 +11,9 @@ public class ChargeStationBalancer extends SubsystemBase {
 
     private final Drivetrain drivetrain;
     private final PIDController pid;
+    private final DoublePublisher tiltPub;
+    private final BooleanPublisher balancedPub;
+    private final BooleanPublisher balanceModeActivePub;
     private boolean enabled = false;
 
     // Constantes PID seguras para testes iniciais
@@ -20,6 +26,10 @@ public class ChargeStationBalancer extends SubsystemBase {
     public ChargeStationBalancer(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         this.pid = new PIDController(kP, kI, kD);
+        var nt = NetworkTableInstance.getDefault();
+        tiltPub = nt.getDoubleTopic("/ChargeStation/TiltDeg").publish();
+        balancedPub = nt.getBooleanTopic("/ChargeStation/Balanced").publish();
+        balanceModeActivePub = nt.getBooleanTopic("/ChargeStation/BalanceModeActive").publish();
         pid.setSetpoint(0.0);
         pid.setTolerance(TILT_TOLERANCE_DEG);
     }
@@ -50,6 +60,9 @@ public class ChargeStationBalancer extends SubsystemBase {
         SmartDashboard.putNumber("ChargeStation/TiltDeg", tilt);
         SmartDashboard.putBoolean("ChargeStation/Balanced", balanced);
         SmartDashboard.putBoolean("ChargeStation/BalanceModeActive", enabled);
+        tiltPub.set(tilt);
+        balancedPub.set(balanced);
+        balanceModeActivePub.set(enabled);
 
         if (enabled) {
             if (balanced) {

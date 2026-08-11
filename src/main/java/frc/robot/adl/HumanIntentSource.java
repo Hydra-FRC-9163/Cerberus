@@ -20,11 +20,11 @@ public class HumanIntentSource {
         lastCommand = cmd;
 
         switch (cmd) {
-            case "ACQUIRE_PIECE": return HumanIntent.acquirePiece(HumanIntent.GameZone.BUMP, true);
-            case "SCORE":         return HumanIntent.scorePiece(HumanIntent.GameZone.HUB, true);
-            case "MOVE_DEPOT":    return HumanIntent.moveTo(HumanIntent.GameZone.DEPOT);
-            case "MOVE_BUMP":     return HumanIntent.moveTo(HumanIntent.GameZone.BUMP);
-            case "CLIMB":         return HumanIntent.climb();
+            case "ACQUIRE_PIECE": return HumanIntent.acquirePiece(HumanIntent.GameZone.OUTPOST, true);
+            case "SCORE_PIECE":         return HumanIntent.scorePiece(HumanIntent.GameZone.GRIDS, true);
+            case "MOVE_DEPOT":    return HumanIntent.moveTo(HumanIntent.GameZone.PIECES);
+            case "MOVE_STATION":     return HumanIntent.moveTo(HumanIntent.GameZone.STATION);
+            case "BALANCE":         return HumanIntent.balance();
             case "ABORT":         return HumanIntent.abort();
             default:              return null;
         }

@@ -8,23 +8,19 @@ import frc.robot.adl.core.RobotContextFacts;
 import frc.robot.subsystems.Score.angular.AngularManager;
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Score.claw.GamePieceType;
-import frc.robot.subsystems.Score.linear.LinearManager;
 
 public final class AcquirePieceHandler implements ActionHandler {
 
-    private final ClawManager claw;
     @SuppressWarnings("unused")
-    private final LinearManager linear;
+    private final ClawManager claw;
     @SuppressWarnings("unused")
     private final AngularManager angular;
 
     public AcquirePieceHandler(
             ClawManager claw,
-            LinearManager linear,
             AngularManager angular
     ) {
         this.claw = claw;
-        this.linear = linear;
         this.angular = angular;
     }
 

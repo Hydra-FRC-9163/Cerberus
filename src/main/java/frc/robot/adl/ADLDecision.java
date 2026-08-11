@@ -39,10 +39,10 @@ public class ADLDecision {
             );
         }
 
-        if (context.endgame && intent.getType() != HumanIntent.Type.CLIMB) {
+        if (context.endgame && intent.getType() != HumanIntent.Type.BALANCE) {
             return DecisionResult.reject(
                 currentState,
-                "Endgame: apenas climb permitido"
+                "Endgame: apenas se balancear esta permitido"
             );
         }
 
@@ -58,14 +58,12 @@ public class ADLDecision {
                 return DecisionResult.execute(ADLState.ACQUIRING, "Adquirindo peça em " + intent.getTargetZone());
             case SCORE_PIECE:
                 return DecisionResult.execute(ADLState.SCORING, "Pontuando em " + intent.getTargetZone());
-            case MOVE_TO_ZONE:
+            case MOVE_TO_OUTPOST:
                 return DecisionResult.execute(ADLState.MOVING, "Movendo para " + intent.getTargetZone());
-            case CLIMB:
-                return DecisionResult.execute(ADLState.CLIMBING, "Iniciando climb");
-            case HOLD_POSITION:
-                return DecisionResult.execute(ADLState.IDLE, "Mantendo posição");
-            case ESCAPE:
-                return DecisionResult.execute(ADLState.MOVING, "Manobra de escape");
+            case BALANCE:
+                return DecisionResult.execute(ADLState.BALANCING, "Iniciando climb");
+            case ABORT:
+                return DecisionResult.execute(ADLState.EMERGENCY, "(EMERGÊNCIA) DESLIGANDO!");
             default:
                 return DecisionResult.reject(currentState, "Intenção desconhecida");
         }

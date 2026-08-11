@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.Constants;
 
+@Deprecated(since = "2026", forRemoval = false)
 public class ADLManager {
     
     private ADLState currentState = ADLState.IDLE;

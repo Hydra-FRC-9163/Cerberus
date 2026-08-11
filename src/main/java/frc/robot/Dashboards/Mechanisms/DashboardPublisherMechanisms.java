@@ -3,20 +3,16 @@ package frc.robot.Dashboards.Mechanisms;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Score.claw.ClawManager;
-import frc.robot.subsystems.Score.linear.LinearManager;
 import frc.robot.subsystems.Score.angular.AngularManager;
 
 public class DashboardPublisherMechanisms extends SubsystemBase {
 
     private final ClawManager claw;
     @SuppressWarnings("unused")
-    private final LinearManager linear;
-    @SuppressWarnings("unused")
     private final AngularManager angular;
 
-    public DashboardPublisherMechanisms(ClawManager claw, LinearManager linear, AngularManager angular) {
+    public DashboardPublisherMechanisms(ClawManager claw, AngularManager angular) {
         this.claw = claw;
-        this.linear = linear;
         this.angular = angular;
     }
 

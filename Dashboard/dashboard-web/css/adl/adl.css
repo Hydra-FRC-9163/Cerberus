@@ -184,7 +184,7 @@ body::after {
 .state-badge.MOVING,    .state-icon.MOVING    { color: var(--accent);  text-shadow: 0 0 18px var(--accent); }
 .state-badge.ACQUIRING, .state-icon.ACQUIRING { color: var(--acquire); text-shadow: 0 0 18px var(--acquire); }
 .state-badge.SCORING,   .state-icon.SCORING   { color: var(--ok);      text-shadow: 0 0 18px var(--ok); }
-.state-badge.CLIMBING,  .state-icon.CLIMBING  { color: var(--climb);   text-shadow: 0 0 18px var(--climb); }
+.state-badge.BALANCING,  .state-icon.BALANCING  { color: var(--balance);   text-shadow: 0 0 18px var(--balance); }
 .state-badge.BLOCKED,   .state-icon.BLOCKED   { color: var(--danger);  text-shadow: 0 0 18px var(--danger); }
 .state-badge.EMERGENCY, .state-icon.EMERGENCY {
   color: var(--danger);
