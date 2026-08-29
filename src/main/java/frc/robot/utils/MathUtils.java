@@ -77,7 +77,6 @@ public class MathUtils {
             velocidades[0] = clamp(left * velocidade);
             velocidades[1] = clamp(right * velocidade);
         }
-    
         return velocidades;
     }    
 }
