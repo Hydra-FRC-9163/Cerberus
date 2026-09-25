@@ -1,9 +1,9 @@
 package frc.robot.subsystems.Drivetrain;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -11,13 +11,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Constants;
 import frc.robot.utils.simulation.DrivetrainSim;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Drivetrain extends SubsystemBase {
 
-    public final VictorSPX leftFront;
-    public final VictorSPX leftBack;
-    public final VictorSPX rightFront;
-    public final VictorSPX rightBack;
+    public final SparkMax leftFront;
+    public final SparkMax leftBack;
+    public final SparkMax rightFront;
+    public final SparkMax rightBack;
+
+    public final SparkMaxConfig configE;
+    public final SparkMaxConfig configD;
+    public final SparkMaxConfig InvertedConfigE;
+    public final SparkMaxConfig InvertedConfigD;
 
     private final PowerDistribution pdh = new PowerDistribution();
 
@@ -28,15 +36,33 @@ public class Drivetrain extends SubsystemBase {
     private double rightCommandedOutput;
 
     public Drivetrain() {
-        leftFront  = drivetrain(Constants.Drivetrain.frontLeft, Constants.Drivetrain.isLeftInverted);
-        leftBack   = drivetrain(Constants.Drivetrain.backLeft, Constants.Drivetrain.isLeftInverted);
-        rightFront = drivetrain(Constants.Drivetrain.frontRight, Constants.Drivetrain.isRightInverted);
-        rightBack  = drivetrain(Constants.Drivetrain.backRight, Constants.Drivetrain.isRightInverted);
 
-        leftBack.follow(leftFront);
-        rightBack.follow(rightFront);
-        leftBack.setInverted(InvertType.FollowMaster);
-        rightBack.setInverted(InvertType.FollowMaster);
+
+
+        leftFront  = new SparkMax(Constants.Drivetrain.frontLeft, MotorType.kBrushed);
+        leftBack   = new SparkMax(Constants.Drivetrain.backLeft, MotorType.kBrushed);
+        rightFront = new SparkMax(Constants.Drivetrain.frontRight, MotorType.kBrushed);
+        rightBack = new SparkMax(Constants.Drivetrain.backRight, MotorType.
+        kBrushed);
+
+        configE = new SparkMaxConfig();
+        configE.idleMode(SparkBaseConfig.IdleMode.kBrake);
+        configE.inverted(false);
+
+        configD = new SparkMaxConfig();
+        configD.idleMode(SparkBaseConfig.IdleMode.kBrake);
+        configD.inverted(true);
+
+        InvertedConfigE = new SparkMaxConfig();
+        InvertedConfigE.idleMode(SparkBaseConfig.IdleMode.kBrake);
+        InvertedConfigE.inverted(false);
+        InvertedConfigE.follow(leftFront);
+
+        InvertedConfigD = new SparkMaxConfig();
+        InvertedConfigD.idleMode(SparkBaseConfig.IdleMode.kBrake);
+        InvertedConfigD.inverted(false);
+        InvertedConfigD.follow(rightFront);
+
     }
      
     public VictorSPX drivetrain(int id, boolean invertido) {
@@ -50,8 +76,8 @@ public class Drivetrain extends SubsystemBase {
     public void drive(double leftSpeed, double rightSpeed) {
         leftCommandedOutput = leftSpeed;
         rightCommandedOutput = rightSpeed;
-        leftFront.set(ControlMode.PercentOutput, leftSpeed);
-        rightFront.set(ControlMode.PercentOutput, rightSpeed);
+        leftFront.set(leftSpeed);
+        rightFront.set(rightSpeed);
     }
 
     public void diffDrive(double forwardAxis, double turnAxis, double speed) {
@@ -77,11 +103,11 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public double getLeftMotorOutput() {
-        return leftFront.getMotorOutputPercent();
+        return leftFront.getAppliedOutput();
     }
 
     public double getRightMotorOutput() {
-        return rightFront.getMotorOutputPercent();
+        return rightFront.getAppliedOutput();
     }
 
     public double getLeftCommandedOutput() {
@@ -115,7 +141,6 @@ public class Drivetrain extends SubsystemBase {
         this.drivetrainSim = drivetrainSim;
     }
 
-    // Método seguro que retorna a inclinação atual (ângulo do Gyro)
     public double getTilt() {
         return gyro.getAngle();
     }
