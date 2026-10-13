@@ -14,6 +14,8 @@ import frc.robot.utils.simulation.DrivetrainSim;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.ResetMode;
+import com.revrobotics.PersistMode;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -62,6 +64,8 @@ public class Drivetrain extends SubsystemBase {
         InvertedConfigD.idleMode(SparkBaseConfig.IdleMode.kBrake);
         InvertedConfigD.inverted(false);
         InvertedConfigD.follow(rightFront);
+
+        leftFront.configure(configE,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
 
     }
      
