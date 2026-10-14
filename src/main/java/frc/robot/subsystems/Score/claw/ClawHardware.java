@@ -8,14 +8,14 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.PersistMode;
 
 public class ClawHardware extends SubsystemBase {
-  public SparkMax clawMotor = new SparkMax(5, SparkMax.MotorType.kBrushless);
+  public SparkMax clawMotor = new SparkMax(14, SparkMax.MotorType.kBrushless);
  
 
   SparkMaxConfig clawMotorConfig = new SparkMaxConfig();
   public ClawHardware() {
     clawMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
     clawMotorConfig.inverted(false);
-    clawMotorConfig.smartCurrentLimit(30);
+    clawMotorConfig.smartCurrentLimit(20);
 
     clawMotor.configure(clawMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }

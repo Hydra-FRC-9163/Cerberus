@@ -7,14 +7,17 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Dashboards.ADLDashboard.ADLController;
 import frc.robot.Dashboards.ADLDashboard.ADLMonitor;
 import frc.robot.Dashboards.ADLDashboard.DashboardPublisherADL;
@@ -46,7 +49,7 @@ import frc.robot.utils.simulation.DrivetrainSim;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
-  private final CommandPS5Controller controller;
+  private final PS5Controller controller;
   private final Joystick logitech;
 
   private final DefaultDriveCommand defaultDriveCommand;
@@ -79,7 +82,7 @@ public class RobotContainer {
 
     public RobotContainer() {
   
-      controller          = new CommandPS5Controller(Constants.PS5_ID);
+      controller          = new PS5Controller(Constants.PS5_ID);
       logitech            = new Joystick(Constants.LOGITECH_ID);
   
       drivetrain          = new Drivetrain();
@@ -163,17 +166,33 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    controller.options().onTrue(new InstantCommand(() -> defaultDriveCommand.toggleDriveMode()));
-    controller.create().onTrue(new InstantCommand(() -> publishAdlIntent(
-        Season2023Module.ABORT, "unknown", "", 1000, true
-    )));
+    // controller.getOptionsButton().onTrue(new InstantCommand(() -> defaultDriveCommand.toggleDriveMode()));
+    // controller.getCreateButton().onTrue(new InstantCommand(() -> publishAdlIntent(
+    //     Season2023Module.ABORT, "unknown", "", 1000, true
+    // )));
 
-    controller.circle().onTrue(new InstantCommand(() -> publishAdlIntent(
-        Season2023Module.ACQUIRE_PIECE, "pieces", "", 5, false
-    )));
-    controller.cross().onTrue(new InstantCommand(() -> publishAdlIntent(
-        Season2023Module.SCORE_PIECE, "grids", "", 8, false
-    )));
+    // controller.getCircleButton().onTrue(new InstantCommand(() -> publishAdlIntent(
+    //     Season2023Module.ACQUIRE_PIECE, "pieces", "", 5, false
+    // )));
+    // controller.getCrossButton().onTrue(new InstantCommand(() -> publishAdlIntent(
+    //     Season2023Module.SCORE_PIECE, "grids", "", 8, false
+    // )));
+
+     new Trigger(controller::getR2Button)
+     .whileTrue(Commands.startEnd(() -> 
+     angularManager.AngularUp(), 
+     () -> angularManager.AngularStop()));
+
+       new Trigger(controller::getL2Button)
+     .whileTrue(Commands.startEnd(() -> 
+     angularManager.AngularDown(), 
+     () -> angularManager.AngularStop()));
+
+       new Trigger(controller::getCircleButton)
+     .whileTrue(Commands.startEnd(() -> 
+     clawManager.Intake(), 
+     () -> clawManager.stopClawMotor()));
+      
   }
 
   private void publishAdlIntent(

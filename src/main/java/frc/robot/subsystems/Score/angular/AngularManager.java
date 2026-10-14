@@ -20,11 +20,11 @@ public class AngularManager extends SubsystemBase {
   }
 
   public void AngularUp() {
-    AngularHardware.setAngularSpeed(0.5);
+    AngularHardware.setAngularSpeed(0.2);
   }
 
   public void AngularDown() {
-    AngularHardware.setAngularSpeed(-0.5);
+    AngularHardware.setAngularSpeed(-0.2);
   }
 
   public void AngularStop() {

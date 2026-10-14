@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AngularHardware extends SubsystemBase {
   
-  public SparkMax AngularMotor = new SparkMax(4, MotorType.kBrushless);
+  public SparkMax AngularMotor = new SparkMax(15, MotorType.kBrushless);
   
    SparkMaxConfig config = new SparkMaxConfig();
 

@@ -49,7 +49,7 @@ public class Drivetrain extends SubsystemBase {
 
         configE = new SparkMaxConfig();
         configE.idleMode(SparkBaseConfig.IdleMode.kBrake);
-        configE.inverted(false);
+        configE.inverted(true);
 
         configD = new SparkMaxConfig();
         configD.idleMode(SparkBaseConfig.IdleMode.kBrake);

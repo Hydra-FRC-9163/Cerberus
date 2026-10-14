@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,7 +11,7 @@ import frc.robot.subsystems.Drivetrain.*;
 public class DefaultDriveCommand extends Command {
 
     private final Drivetrain drivetrain;
-    private final CommandPS5Controller controller;
+    private final PS5Controller controller;
 
     private int POV;
     private boolean botaoA, botaoB, botaoX, R1, L1, differentialMode;
@@ -19,9 +20,9 @@ public class DefaultDriveCommand extends Command {
 
     private final MathUtils math = new MathUtils();
 
-    public DefaultDriveCommand(Drivetrain drive, CommandPS5Controller controller) {
+    public DefaultDriveCommand(Drivetrain drive, PS5Controller controller2) {
         this.drivetrain = drive;
-        this.controller = controller;
+        this.controller = controller2;
         addRequirements(drivetrain);
     }
 
@@ -72,21 +73,21 @@ public class DefaultDriveCommand extends Command {
     }
 
     private void lerControles() {
-        botaoA = controller.triangle().getAsBoolean();
-        botaoB = controller.cross().getAsBoolean();
-        botaoX = controller.square().getAsBoolean();
+        botaoA = controller.getTriangleButton();
+        botaoB = controller.getCrossButton();
+        botaoX = controller.getSquareButton();
 
         eixoX1 = controller.getLeftX();
         eixoY1 = -controller.getLeftY();
         eixoX2 = controller.getRightX();
         eixoY2 = -controller.getRightY();
 
-        R1 = controller.R1().getAsBoolean();
-        L1 = controller.L1().getAsBoolean();
+        R1 = controller.getR1Button();
+        L1 = controller.getL1Button();
         L2 = controller.getL2Axis();
         R2 = controller.getR2Axis();
 
-        POV = controller.getHID().getPOV();
+        POV = controller.getPOV();
     }
 
     private void speedControl() {
