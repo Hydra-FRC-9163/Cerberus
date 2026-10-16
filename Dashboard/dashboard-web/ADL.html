@@ -62,6 +62,46 @@
         <div id="speed-warning" class="speed-warning hidden">
           ⚠️ Bateria baixa — velocidade do drive reduzida automaticamente
         </div>
+
+  <h2>Robot Configuration</h2>
+
+  <div class="metric">
+    <label for="claw-speed">Claw Speed</label>
+    <input id="claw-speed" type="number" min="-1" max="1"
+           step="0.05" value="0.5">
+    <button data-config-table="Config/Claw"
+            data-config-key="Velocidade"
+            data-config-input="claw-speed">Aplicar</button>
+  </div>
+
+  <div class="metric">
+    <label for="claw-open-speed">Claw Open Speed</label>
+    <input id="claw-open-speed" type="number" min="-1" max="1"
+           step="0.05" value="-0.5">
+    <button data-config-table="Config/Claw"
+            data-config-key="Velocidade Aberta"
+            data-config-input="claw-open-speed">Aplicar</button>
+  </div>
+
+  <div class="metric">
+    <label for="arm-up-speed">Arm Speed Up</label>
+    <input id="arm-up-speed" type="number" min="-1" max="1"
+           step="0.05" value="0.2">
+    <button data-config-table="Config/Arm"
+            data-config-key="Velocidade Cima"
+            data-config-input="arm-up-speed">Aplicar</button>
+  </div>
+
+  <div class="metric">
+    <label for="arm-down-speed">Arm Speed Down</label>
+    <input id="arm-down-speed" type="number" min="-1" max="1"
+           step="0.05" value="-0.2">
+    <button data-config-table="Config/Arm"
+            data-config-key="Velocidade Baixo"
+            data-config-input="arm-down-speed">Aplicar</button>
+  </div>
+
+  <p id="config-status">Aguardando conexão...</p>
       </section>
 
       <!-- ═══ COLUNA DIREITA — ADL ═══ -->
@@ -162,11 +202,14 @@
       </section>
 
     </div>
+
+
   </div>
 
- <script type="module" src="js/ws.js"></script>
+<script type="module" src="js/ws.js"></script>
 <script type="module" src="js/stress/stress.js"></script>
 <script type="module" src="js/adl/adl.js"></script>
+<script type="module" src="js/config-panel.js"></script>
 
 </body>
 </html>

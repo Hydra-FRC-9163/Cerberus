@@ -1,24 +1,30 @@
 package frc.robot.subsystems.Score.claw;
 
+import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.RobotConfigures;
 
 public class ClawManager extends SubsystemBase {
 
   public ClawHardware clawHardware;
+  public RobotConfigures robotConfig;
+  
 
   private GamePieceType currentPiece = GamePieceType.NONE;
   private GamePieceType nextIntakeTarget = GamePieceType.CONE;
 
-  public ClawManager(ClawHardware clawHardware) {
+  public ClawManager(ClawHardware clawHardware,RobotConfigures robotConfig) {
     this.clawHardware = clawHardware;
+    this.robotConfig = robotConfig;
   }
 
   public void Intake() {
-    clawHardware.setClawMotorSpeed(0.5);
+    clawHardware.setClawMotorSpeed(robotConfig.ClawSpeed);
   }
 
   public void Outtake() {
-    clawHardware.setClawMotorSpeed(-0.5);
+    clawHardware.setClawMotorSpeed(robotConfig.ClawOpenSpeed);
   }
 
   public void stopClawMotor() {

@@ -5,15 +5,19 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import com.ctre.phoenix.unmanaged.Unmanaged;
+import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
+import frc.robot.utils.RobotConfigures;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
+  private final RobotConfigures robotConfig;
 
   private final RobotContainer m_robotContainer;
   @SuppressWarnings("unused")
@@ -22,7 +26,7 @@ public class Robot extends LoggedRobot {
   public Robot() {
     m_robotContainer = new RobotContainer();
     drivetrain = m_robotContainer.getDrivetrain();
-
+    robotConfig = m_robotContainer.getRobotConfig();
 
      Logger.recordMetadata("ProjectName", "Binga"); 
      Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
@@ -54,6 +58,8 @@ public class Robot extends LoggedRobot {
     } catch (Exception e){
       System.out.println("Camera not found");
     }
+
+    robotConfig.initDashboard();
   }
 
   @Override
@@ -67,6 +73,8 @@ public class Robot extends LoggedRobot {
       CommandScheduler.getInstance().run();
       m_robotContainer.periodic();
 
+      robotConfig.updateFromDashboard();
+      robotConfig.PutDashBoard();
     // System.out.println(CommandScheduler.getInstance().requiring(drivetrain));
   }
 

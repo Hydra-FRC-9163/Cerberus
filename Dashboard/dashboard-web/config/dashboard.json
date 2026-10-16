@@ -1,8 +1,8 @@
 {
-  "websocket": {
-    "url": "ws://127.0.0.1:5901/nt/dashboard",
-    "reconnectMs": 1200
-  },
+"websocket": {
+  "url": "ws://127.0.0.1:5901",
+  "reconnectMs": 1200
+},
   "networkTables": {
     "RobotStress": {
       "batteryVoltage": { "type": "number", "default": 0 },
@@ -72,12 +72,20 @@
     "limelight-lime2plus": {
       "hw": { "type": "numberArray", "default": [0, 0, 0, 0] }
     },
-    "Modes": {
+     "Modes": {
       "AimLockLime4": { "type": "number", "default": 0 },
       "AimLockLime2": { "type": "number", "default": 0 },
       "AlignLime2": { "type": "number", "default": 0 },
       "AimLockLime2Plus": { "type": "number", "default": 0 },
       "AlignPiece": { "type": "number", "default": 0 }
+    },
+    "Config/Claw": {
+      "Velocidade": { "type": "number", "default": 0.5 },
+      "Velocidade Aberta": { "type": "number", "default": -0.5 }
+    },
+    "Config/Arm": {
+      "Velocidade Cima": { "type": "number", "default": 0.2 },
+      "Velocidade Baixo": { "type": "number", "default": -0.2 }
     }
   },
   "topics": {
@@ -141,7 +149,6 @@
   },
   "cameras": {
     "lime4": "http://10.91.63.30:5800/stream.mjpg",
-    "lime2plus": "http://10.91.63.20:5800",
-    "fisheye": "http://10.91.63.2:1181/?action=stream"
+    "lime2plus": "http://10.91.63.20:5800"
   }
 }

@@ -43,6 +43,7 @@ import frc.robot.subsystems.Score.claw.ClawHardware;
 import frc.robot.subsystems.Score.claw.ClawManager;
 import frc.robot.subsystems.Sensors.ThroughBore.ThroughBoreHardware;
 import frc.robot.utils.Constants;
+import frc.robot.utils.RobotConfigures;
 import frc.robot.utils.simulation.AngularArmSim;
 import frc.robot.utils.simulation.DrivetrainSim;
 
@@ -80,6 +81,8 @@ public class RobotContainer {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
 
+  private RobotConfigures robotConfig;
+
     public RobotContainer() {
   
       controller          = new PS5Controller(Constants.PS5_ID);
@@ -88,12 +91,13 @@ public class RobotContainer {
       drivetrain          = new Drivetrain();
       chargeStationBalancer = new ChargeStationBalancer(drivetrain);
       defaultDriveCommand = new DefaultDriveCommand(drivetrain, controller);
+      robotConfig         = new RobotConfigures();
   
       clawHardware        = new ClawHardware();
-      clawManager         = new ClawManager(clawHardware);
+      clawManager         = new ClawManager(clawHardware,robotConfig);
 
       angularHardware     = new AngularHardware();
-      angularManager      = new AngularManager(angularHardware);
+      angularManager      = new AngularManager(angularHardware,robotConfig);
   
       stressMonitor       = new RobotStressMonitor();
       stressController    = new RobotStressController();
@@ -192,6 +196,12 @@ public class RobotContainer {
      .whileTrue(Commands.startEnd(() -> 
      clawManager.Intake(), 
      () -> clawManager.stopClawMotor()));
+
+       new Trigger(controller::getR1Button)
+     .whileTrue(Commands.startEnd(() -> 
+     clawManager.Outtake(), 
+     () -> clawManager.stopClawMotor()));
+      
       
   }
 
@@ -240,6 +250,10 @@ public class RobotContainer {
 
   public Drivetrain getDrivetrain() {
     return drivetrain;
+  }
+
+  public RobotConfigures getRobotConfig() {
+      return robotConfig;
   }
 
 }
