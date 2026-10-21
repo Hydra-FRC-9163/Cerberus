@@ -12,6 +12,7 @@ import {
 
 const status = document.getElementById("config-status");
 const inputs = new Map();
+const dirty = new Set(); // topicos com valor digitado ainda nao aplicado
 
 // =========================
 // CONFIGURACAO DOS BOTOES
@@ -35,23 +36,38 @@ document.querySelectorAll("[data-config-table]").forEach((button) => {
 
     inputs.set(topic, input);
 
-    button.addEventListener("click", () => {
-        const value = input.valueAsNumber;
+function apply() {
+        const rawValue = input.value.replace(',', '.');
+        const value = parseFloat(rawValue);
 
         if (!Number.isFinite(value) || value < -1 || value > 1) {
             setStatus("Use um valor entre -1 e 1.");
             return;
         }
 
-        ntSend({
+        // Retorna ao formato original com action: "put" que a sua bridge reconhece
+        const payload = {
             action: "put",
-            table,
-            key,
-            value
-        });
+            table: table,
+            key: key,
+            value: value
+        };
 
+        console.log("[Config] Enviando para o WebSocket:", payload);
+        ntSend(payload);
+
+        dirty.delete(topic);
         setStatus(`Enviado: ${key} = ${value}`);
-    });
+    }
+
+    // Marca o campo como editado: o valor digitado nao e sobrescrito
+    // pelo que chega do robot ate ser aplicado.
+    input.addEventListener("input", () => dirty.add(topic));
+
+    // Aplica ao clicar fora (blur) ou apertar Enter.
+    input.addEventListener("change", apply);
+
+    button.addEventListener("click", apply);
 });
 
 // =========================
@@ -65,8 +81,9 @@ onNTMessage((topic, value) => {
         return;
     }
 
-    // Nao sobrescreve o campo enquanto o usuario estiver editando.
-    if (document.activeElement !== input) {
+    // Nao sobrescreve o campo enquanto o usuario estiver editando
+    // ou enquanto houver um valor digitado ainda nao aplicado.
+    if (document.activeElement !== input && !dirty.has(topic)) {
         const number = Number(value);
 
         if (Number.isFinite(number)) {

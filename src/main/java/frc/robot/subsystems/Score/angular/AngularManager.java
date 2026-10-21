@@ -27,7 +27,7 @@ public class AngularManager extends SubsystemBase {
   }
 
   public void AngularDown() {
-    AngularHardware.setAngularSpeed(-robotConfig.armSpeedDown);
+    AngularHardware.setAngularSpeed(robotConfig.armSpeedDown);
   }
 
   public void AngularStop() {
