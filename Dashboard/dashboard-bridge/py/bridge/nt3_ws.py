@@ -8,6 +8,8 @@ from networktables import NetworkTables
 clients = set()
 PULSE_TIME = 0.2
 CONFIG_PATH = Path(__file__).resolve().parents[3] / "dashboard-web" / "config" / "dashboard.json"
+print(f"📄 Configuração: {CONFIG_PATH}")
+print(f"📄 Arquivo existe: {CONFIG_PATH.exists()}")
 
 def load_config():
     with CONFIG_PATH.open("r", encoding="utf-8") as f:

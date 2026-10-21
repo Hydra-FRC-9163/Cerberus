@@ -1,72 +1,62 @@
 package frc.robot.utils;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotConfigures {
+    private static final NetworkTable clawTable =
+        NetworkTableInstance.getDefault().getTable("Config/Claw");
 
-    public RobotConfigures(){}
-//---------------------CLAW-------------------------
-        public static double ClawSpeed = 0.5;
-        public static double ClawOpenSpeed = -0.5;
+    private static final NetworkTable armTable =
+        NetworkTableInstance.getDefault().getTable("Config/Arm");
 
-//----------------------ARM-------------------------
-        public static double armSpeedUp = 0.2;
-        public static double armSpeedDown = -0.2;
+    private static final NetworkTableEntry clawSpeedEntry =
+        clawTable.getEntry("Velocidade");
 
- 
+    private static final NetworkTableEntry clawOpenSpeedEntry =
+        clawTable.getEntry("Velocidade Aberta");
+
+    private static final NetworkTableEntry armUpSpeedEntry =
+        armTable.getEntry("Velocidade Cima");
+
+    private static final NetworkTableEntry armDownSpeedEntry =
+        armTable.getEntry("Velocidade Baixo");
+
+    public static double clawSpeed = 0.5;
+    public static double clawOpenSpeed = -0.5;
+    public static double armUpSpeed = 0.2;
+    public static double armDownSpeed = -0.2;
+
+    public static void updateFromNetworkTables() {
+        clawSpeed = clawSpeedEntry.getDouble(0.5);
+        clawOpenSpeed = clawOpenSpeedEntry.getDouble(-0.5);
+        armUpSpeed = armUpSpeedEntry.getDouble(0.2);
+        armDownSpeed = armDownSpeedEntry.getDouble(-0.2);
+    }
+
+        public void PutDashBoard(){
+        SmartDashboard.putNumber("Config/Claw/Velocidade", clawSpeed);
+        SmartDashboard.putNumber("Config/Claw/Velocidade Aberta", clawOpenSpeed);
+        SmartDashboard.putNumber("Config/Arm/Velocidade Cima", armUpSpeed);
+        SmartDashboard.putNumber("Config/Arm/Velocidade Baixo", armDownSpeed);
+    }
+
+    
     
     public static void initDashboard() {
         SmartDashboard.setDefaultNumber(
-            "Config/Claw/Velocidade", ClawSpeed
+            "Config/Claw/Velocidade", clawSpeed
         );
         SmartDashboard.setDefaultNumber(
-            "Config/Claw/Velocidade Aberta", ClawOpenSpeed
+            "Config/Claw/Velocidade Aberta", clawOpenSpeed
         );
         SmartDashboard.setDefaultNumber(
-            "Config/Arm/Velocidade Cima", armSpeedUp
+            "Config/Arm/Velocidade Cima", armUpSpeed
         );
         SmartDashboard.setDefaultNumber(
-            "Config/Arm/Velocidade Baixo", armSpeedDown
+            "Config/Arm/Velocidade Baixo", armDownSpeed
         );
-    }
-
-      public static void updateFromDashboard() {
-        ClawSpeed = clamp(
-            SmartDashboard.getNumber(
-                "Config/Claw/Velocidade", ClawSpeed
-            ),
-            -1.0, 1.0
-        );
-        ClawOpenSpeed = clamp(
-            SmartDashboard.getNumber(
-                "Config/Claw/Velocidade Aberta", ClawOpenSpeed
-            ),
-            -1.0, 1.0
-        );
-        armSpeedUp = clamp(
-            SmartDashboard.getNumber(
-                "Config/Arm/Velocidade Cima", armSpeedUp
-            ),
-            -1.0, 1.0
-        );
-        armSpeedDown = clamp(
-            SmartDashboard.getNumber(
-                "Config/Arm/Velocidade Baixo", armSpeedDown
-            ),
-            -1.0, 1.0
-        );
-    }
-
-    private static double clamp(
-        double value, double min, double max
-    ) {
-        return Math.max(min, Math.min(max, value));
-    }
-    
-    public void PutDashBoard(){
-        SmartDashboard.putNumber("Config/Claw/Velocidade", ClawSpeed);
-        SmartDashboard.putNumber("Config/Claw/Velocidade Aberta", ClawOpenSpeed);
-        SmartDashboard.putNumber("Config/Arm/Velocidade Cima", armSpeedUp);
-        SmartDashboard.putNumber("Config/Arm/Velocidade Baixo", armSpeedDown);
     }
 }

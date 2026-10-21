@@ -20,11 +20,11 @@ public class ClawManager extends SubsystemBase {
   }
 
   public void Intake() {
-    clawHardware.setClawMotorSpeed(robotConfig.ClawSpeed);
+    clawHardware.setClawMotorSpeed(robotConfig.clawSpeed);
   }
 
   public void Outtake() {
-    clawHardware.setClawMotorSpeed(robotConfig.ClawOpenSpeed);
+    clawHardware.setClawMotorSpeed(robotConfig.clawOpenSpeed);
   }
 
   public void stopClawMotor() {

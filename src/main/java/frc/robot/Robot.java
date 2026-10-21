@@ -73,7 +73,7 @@ public class Robot extends LoggedRobot {
       CommandScheduler.getInstance().run();
       m_robotContainer.periodic();
 
-      robotConfig.updateFromDashboard();
+      robotConfig.updateFromNetworkTables();
       robotConfig.PutDashBoard();
     // System.out.println(CommandScheduler.getInstance().requiring(drivetrain));
   }
