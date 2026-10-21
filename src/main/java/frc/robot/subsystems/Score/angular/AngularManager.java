@@ -19,7 +19,7 @@ public class AngularManager extends SubsystemBase {
   }
 
   public void AngularGoToPosition(double position) {
-    AngularHardware.AngularMotor.getClosedLoopController().setSetpoint(position, ControlType.kPosition);
+    AngularHardware.AngularMotor.getClosedLoopController().setSetpoint(position, ControlType.kMAXMotionPositionControl);
   }
 
   public void AngularUp() {

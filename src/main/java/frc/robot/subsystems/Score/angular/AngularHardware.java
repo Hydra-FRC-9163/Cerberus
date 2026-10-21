@@ -9,10 +9,13 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import pabeles.concurrency.IntOperatorTask.Max;
 
 public class AngularHardware extends SubsystemBase {
   
@@ -25,15 +28,21 @@ public class AngularHardware extends SubsystemBase {
     config.idleMode(SparkBaseConfig.IdleMode.kBrake)
     .closedLoop
     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(0.0001, 0.0, 0.001);
+    .pid(0.0001, 0.0, 0.001)
+    .outputRange(-0.4, 0.4);
 
     config.closedLoop.feedForward
     .kV(0.1)
     .kS(0.1)
     .kA(0.1);
 
+    config.closedLoop.maxMotion
+    .cruiseVelocity(1500)
+    .maxAcceleration(2000);
+
     config.inverted(false);
     config.smartCurrentLimit(40);
+  
 
     AngularMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
@@ -47,5 +56,7 @@ public class AngularHardware extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("ArmPosition", AngularMotor.getEncoder().getPosition());
+  }
 }
