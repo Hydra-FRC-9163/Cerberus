@@ -34,6 +34,7 @@ import frc.robot.adl.core.NetworkTablesRobotContextFactsProvider;
 import frc.robot.adl.core.SeasonRegistrationContext;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.seasons.season2023.Season2023Module;
+// import frc.robot.subsystems.KrakenX60Teste;
 import frc.robot.subsystems.Drivetrain.ChargeStationBalancer;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Score.angular.AngularHardware;
@@ -82,6 +83,7 @@ public class RobotContainer {
   private AddressableLEDBuffer m_ledBuffer;
 
   private RobotConfigures robotConfig;
+  // private KrakenX60Teste krakenX60Teste;
 
     public RobotContainer() {
   
@@ -98,6 +100,8 @@ public class RobotContainer {
 
       angularHardware     = new AngularHardware();
       angularManager      = new AngularManager(angularHardware,robotConfig);
+
+      // krakenX60Teste       = new KrakenX60Teste();
   
       stressMonitor       = new RobotStressMonitor();
       stressController    = new RobotStressController();
@@ -201,7 +205,18 @@ public class RobotContainer {
      .whileTrue(Commands.startEnd(() -> 
      clawManager.Outtake(), 
      () -> clawManager.stopClawMotor()));
-      
+
+    //  new Trigger(controller:: getSquareButton)
+    //  .toggleOnTrue(Commands.startEnd(()-> angularManager.AngularGoToPosition(25), () -> angularManager.AngularStop()));
+
+    //   new Trigger(controller:: getTriangleButton)
+    //  .whileTrue(Commands.startEnd(()-> krakenX60Teste.setRpm(500), () -> krakenX60Teste.setRpm(0)));
+
+    //    new Trigger(controller:: getCrossButton)
+    //  .toggleOnTrue(Commands.runOnce(()-> krakenX60Teste.setPosition(20)));
+
+     
+
       
   }
 

@@ -20,6 +20,7 @@ public class AngularManager extends SubsystemBase {
 
   public void AngularGoToPosition(double position) {
     AngularHardware.AngularMotor.getClosedLoopController().setSetpoint(position, ControlType.kMAXMotionPositionControl);
+    System.out.println("PID FUncionando");
   }
 
   public void AngularUp() {
@@ -31,7 +32,10 @@ public class AngularManager extends SubsystemBase {
   }
 
   public void AngularStop() {
-    AngularHardware.stopAngular();
+    AngularHardware.AngularMotor.getClosedLoopController().setIAccum(0);
+    AngularHardware.AngularMotor.stopMotor();
+
+    System.out.println("Braço parado");
   }
 
   @Override

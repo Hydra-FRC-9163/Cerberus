@@ -15,35 +15,33 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import pabeles.concurrency.IntOperatorTask.Max;
 
 public class AngularHardware extends SubsystemBase {
   
   public SparkMax AngularMotor = new SparkMax(15, MotorType.kBrushless);
   
-   SparkMaxConfig config = new SparkMaxConfig();
+  SparkMaxConfig config = new SparkMaxConfig();
 
   public AngularHardware() {
     
     config.idleMode(SparkBaseConfig.IdleMode.kBrake)
     .closedLoop
     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(0.0001, 0.0, 0.001)
-    .outputRange(-0.4, 0.4);
+    .pid(0.1, 0.0, 0.001)
+    .outputRange(0, 0.3);
 
-    config.closedLoop.feedForward
-    .kV(0.1)
-    .kS(0.1)
-    .kA(0.1);
+    // config.closedLoop.feedForward
+    // .kV(0.1)
+    // .kS(0.1)
+    // .kA(0.1);
 
     config.closedLoop.maxMotion
-    .cruiseVelocity(1500)
-    .maxAcceleration(2000);
+    // .cruiseVelocity(1500)
+    .maxAcceleration(500);
 
     config.inverted(false);
     config.smartCurrentLimit(40);
   
-
     AngularMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 

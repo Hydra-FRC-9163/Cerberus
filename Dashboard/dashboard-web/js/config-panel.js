@@ -12,8 +12,7 @@ import {
 
 const status = document.getElementById("config-status");
 const inputs = new Map();
-const dirty = new Set(); // topicos com valor digitado ainda nao aplicado
-
+const dirty = new Set();
 // =========================
 // CONFIGURACAO DOS BOTOES
 // ======-===================
@@ -45,7 +44,6 @@ function apply() {
             return;
         }
 
-        // Retorna ao formato original com action: "put" que a sua bridge reconhece
         const payload = {
             action: "put",
             table: table,
@@ -64,7 +62,7 @@ function apply() {
     // pelo que chega do robot ate ser aplicado.
     input.addEventListener("input", () => dirty.add(topic));
 
-    // Aplica ao clicar fora (blur) ou apertar Enter.
+ 
     input.addEventListener("change", apply);
 
     button.addEventListener("click", apply);

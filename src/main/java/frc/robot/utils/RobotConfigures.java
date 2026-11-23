@@ -26,13 +26,13 @@ public class RobotConfigures {
 
     public static double clawSpeed = 0.5;
     public static double clawOpenSpeed = -0.5;
-    public static double armUpSpeed = 0.2;
+    public static double armUpSpeed = 0.3;
     public static double armDownSpeed = -0.2;
 
     public static void updateFromNetworkTables() {
         clawSpeed = clawSpeedEntry.getDouble(0.5);
         clawOpenSpeed = clawOpenSpeedEntry.getDouble(-0.5);
-        armUpSpeed = armUpSpeedEntry.getDouble(0.2);
+        armUpSpeed = armUpSpeedEntry.getDouble(0.3);
         armDownSpeed = armDownSpeedEntry.getDouble(-0.2);
     }
 
