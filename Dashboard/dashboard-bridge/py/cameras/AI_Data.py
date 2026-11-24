@@ -19,7 +19,7 @@ from limelight.RIO2WPILIB import (
 
 LIME2_STREAM_URL = "http://10.91.63.2:1181/?action=stream"
 
-MODEL_PATH = "C:\\Users\\Usuario\\25-26\\SwerveDrive\\src\\main\\deploy\\py\\ChargedUp.pt"
+MODEL_PATH = "C:\\Users\\Usuario\\25-26\\SwerveDrive\\src\\main\\deploy\\py\\   pegaRoboBest.pt"
 CONF_THRESHOLD = 0.50
 
 INFER_DT = 0.05
