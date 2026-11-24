@@ -49,9 +49,14 @@
 //    config.MotionMagic.MotionMagicAcceleration = 20;
 //    config.MotionMagic.MotionMagicCruiseVelocity = 10;
 //    config.MotionMagic.MotionMagicJerk = 100;
+
 //            // Configs de corrente //
-//    config.CurrentLimits.StatorCurrentLimit = 120;
+//  Limite de Supply (corrente puxada da bateria/PDH)
 //    config.CurrentLimits.StatorCurrentLimitEnable = true;
+//    config.CurrentLimits.StatorCurrentLimit = 40;
+ // Limite de Stator (corrente nas bobinas = limita torque e calor)
+//    config.CurrenteLimits.Supply.CurrentLimitsEnable = true;
+//    config.CurrentLimits.SupplyCurrentLimit = 30;
 
 //    krakenX60.getConfigurator().apply(config);
 //    var status = krakenX60.getConfigurator().apply(config);
